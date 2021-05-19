@@ -1,0 +1,46 @@
+\documentclass{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{graphicx}
+%\usepackage{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIB SETUP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[
+	backend=biber,
+	style=ieee,
+	natbib=true,
+	url=true, 
+	doi=true,
+	eprint=false
+]{biblatex}
+\addbibresource{bibliography.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VARS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\graphicspath{{./img}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DOC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+  
+%%% CONTENT %%%
+
+\input{content/cover.tex}
+\input{content/abstract.tex}
+\input{content/introduction.tex}
+\input{content/content.tex}
+\input{content/conclusion.tex}
+
+%%% BIBLIOGRAPHY %%%
+
+\clearpage
+\small
+\onecolumn
+\printbibliography
+
+
+\end{document}
