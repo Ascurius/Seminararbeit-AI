@@ -1,0 +1,15 @@
+DAY;WEATHER;TEMP;HUMIDITY;WIND;PLAY
+1;Sunny;Hot;High;Weak;No
+2;Sunny;Hot;High;Strong;No
+3;Cloudy;Hot;High;Weak;Yes
+4;Rainy;Medium;High;Weak;Yes
+5;Rainy;Cold;Normal;Weak;Yes
+6;Rainy;Cold;Normal;Strong;No
+7;Cloudy;Cold;Normal;Strong;Yes
+8;Sunny;Medium;High;Weak;No
+9;Sunny;Cold;Normal;Weak;Yes
+10;Rainy;Medium;Normal;Weak;Yes
+11;Sunny;Medium;Normal;Strong;Yes
+12;Cloudy;Medium;High;Strong;Yes
+13;Cloudy;Hot;Normal;Weak;Yes
+14;Rainy;Medium;High;Strong;No
