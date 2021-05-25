@@ -2,23 +2,38 @@ import pandas as pd
 import numpy as np
 import json
 from collections import Counter
+from pprint import pprint
 
 def load_csv(file):
     data = pd.read_csv(file, header=0, sep=";")
-    data = data.set_index("DAY")
+    if "Unnamed: 0" in data.keys():
+        del data["Unnamed: 0"]
     return data
 
 def plot_tree(tree):
-    plot = json.dumps(tree, indent=4)
-    print(plot)
-    return plot
+    with open("code/tree.log", "w") as file:
+        pprint(tree, file)
+    return tree
 
-def unique(list):
+def split_data(data_set, split_point):
+    training_data_set = S.sample(frac=split_point)
+    test_data_set = S.drop(training_data_set.index)
+    return training_data_set, test_data_set
 
-    list_unique = set(list)
+def unique(iterable):
+
+    list_unique = set(iterable)
     list_unique_sorted = sorted(list_unique)
+    list_unique_sorted_count = {}
 
-    return list_unique_sorted
+    for unique_value in list_unique_sorted:
+        count = 0
+        for value in iterable:
+            if value == unique_value:
+                count += 1
+        list_unique_sorted_count[unique_value] = count
+
+    return list_unique_sorted_count
 
 def calculate_entropy(attribute):
     entropy = 0
@@ -40,9 +55,9 @@ def calculate_information_gain(data_set, attribute, target_attribute):
 
     return information_gain
 
-def calculate_all_IG(data_set, target_attribute):
+def calculate_all_IG(data_set, target_attribute, attributes):
     total_IG = {}
-    for attribute in data_set.keys():
+    for attribute in attributes:
         if attribute != target_attribute:
             total_IG[attribute] = calculate_information_gain(data_set, attribute, target_attribute)
     return total_IG
@@ -53,18 +68,16 @@ def most_common_value(list):
     return max(total, key=lambda k: total[k])
 
 def ID3(data_set, target_attribute, attributes):
-    attributes = list(attributes)
-    IG = calculate_all_IG(data_set, target_attribute)
-    root = max(IG, key=lambda k: IG[k])
-
-    if len(np.unique(data_set[target_attribute])) == 1:
+    if len(np.unique(data_set[target_attribute])) <= 1:
         return np.unique(data_set[target_attribute])[0]
-    if len(attributes) == 0:
-        return root
-    
+    if len(attributes) <= 1:       
+        return most_common_value(data_set[target_attribute])
+
+    IG = calculate_all_IG(data_set, target_attribute, attributes)
+    root = max(IG, key=lambda k: IG[k])
     highest_IG_attribute = root
     tree = {highest_IG_attribute: {}}
-    attributes.remove(highest_IG_attribute)
+    attributes = [x for x in attributes if x != highest_IG_attribute]
 
     for value in np.unique(data_set[highest_IG_attribute]):
         subset = data_set[data_set[highest_IG_attribute] == value]
@@ -75,10 +88,11 @@ def ID3(data_set, target_attribute, attributes):
             tree[highest_IG_attribute][value] = subtree
     return tree
 
-S = load_csv("code/Weather.csv")
+S = load_csv("code/RiskSampleNormalized-Ausschnitt.csv")
+#S = load_csv("code/Weather.csv")
 
-print(unique(S["TEMP"]))
+training_data_set = split_data(S, 0.3)
 
-#Tree = ID3(S, "PLAY", S.keys())
+Tree = ID3(training_data_set, "RISK", training_data_set.columns)
 
-#plot_tree(Tree)
+plot_tree(Tree)
