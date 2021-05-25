@@ -8,3 +8,6 @@
 *.xml
 *.gz
 *.idea
+
+
+/vscode/

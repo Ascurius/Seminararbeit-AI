@@ -11,6 +11,14 @@ def load_csv(file):
 def plot_tree(tree):
     plot = json.dumps(tree, indent=4)
     print(plot)
+    return plot
+
+def unique(list):
+
+    list_unique = set(list)
+    list_unique_sorted = sorted(list_unique)
+
+    return list_unique_sorted
 
 def calculate_entropy(attribute):
     entropy = 0
@@ -69,6 +77,8 @@ def ID3(data_set, target_attribute, attributes):
 
 S = load_csv("code/Weather.csv")
 
-Tree = ID3(S, "PLAY", S.keys())
+print(unique(S["TEMP"]))
 
-plot_tree(Tree)
+#Tree = ID3(S, "PLAY", S.keys())
+
+#plot_tree(Tree)
