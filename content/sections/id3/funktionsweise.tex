@@ -1,0 +1,30 @@
+\section{Funktionsweise}
+\label{id3:funktionsweise}
+
+Der ID3 Algorithmus startet zu Beginn mit einem Datensatz verschiedenen Attributen wobei jedes Attribut unterschiedlich viele mögliche Werte haben kann. Wichtig ist dabei lediglicht dass das Attribute diskret ist. Darüber hinaus erhält der Algorithmus noch eine Angabe nach welchem Attribut klassifiziert werden soll. \autocite{ImplementationID3}
+
+Dabei macht sich der ID3 Algorithmus zwei Konzepte der Informationstheorie zu nutze. Es handelt sich zum einen um die Entropie und zum anderen um den Informationsgewinn. Beide Konzepte werden im nachfolgenden erläutert.
+
+\subsection{Entropie}
+In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. Unsicherheit angegeben. Dabei steht \textit{X} für die zu untersuchende Variable, bzw. das Attribut aus dem Datensatz. Dementsprechend ist $x_{i}$ eine mögliche Ausprägung des Attributes \textit{X} und \textit{P}($x_{i}$) die Wahrscheinlichkeit mit der ein Wert des Attributes \textit{X} die Ausprägung $x_{i}$ hat. \autocite{Entropy:online} Für den ID3 Algorithmus wird der Logarithmus zur Basis \textit{b=2} verwendet. \autocite{ImplementationID3}
+
+\begin{figure}[htbp]
+    \begin{equation}
+        H(X) = - \sum_{i=1}^{n} P(x_{i}) log_{b} P(x_{i})
+    \end{equation}
+    \caption{Entropiegleichung nach Shennon \autocite{Entropy:online}}
+\end{figure}
+
+Möchte man Beispielsweise die Entropie eines Attributes \textit{X} berechnen in der sich folgende Ausprägungen finden lassen: 3 mal $x_{1}$, 4 mal $x_{2}$ und 2 mal $x_{3}$ so ergibt sich die unten stehende Berechnung.
+
+\begin{align}
+    \begin{equation}
+        \text{H(X)} = -\sum_{i=1}^{9} \text{P(} x_{i} \text{)}  \log_{2} \text{P(} x_{i} \text{)}
+        %H(X) = - \sum_{i=1}^{9} P(x_{i}) \log_{2} P(x_{i})
+        H(X) = - \text{(} \frac{3}{9} \log_{2} \text{)}
+    \end{equation}
+\end{align}
+
+\subsection{Informationsgewinn}
+
+\subsection{Eigentlicher Algorithmus}

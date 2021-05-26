@@ -1,0 +1,17 @@
+\section{Persönliche Implementation}
+\label{id3:implementation}
+
+Die Implementierung besteht im wesentlichen aus drei Bestandteilen. Zum einen aus der Berechnung des Informationsgewinns, welcher sich wiederrum aus der Berechnung der Entropie zusammensetzt. Zum anderen besteht die Implementation aus dem eigentlichen ID3 Algorithmus sowie anderen
+
+
+
+
+\begin{minted}{python}
+    def calculate_entropy(attribute):
+        entropy = 0
+        _, count = np.unique(attribute, return_counts=True)
+        for index in range(len(count)):
+            probablility = count[index] / sum(count)
+            entropy += (-probablility * np.log2(probablility))
+        return entropy
+\end{minted}
