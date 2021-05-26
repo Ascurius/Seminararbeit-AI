@@ -1,0 +1,72 @@
+\section{Datensatz}
+\label{id3:datensatz}
+Für diese Arbeit wurde ein Datensatz verwendet welcher auf ''RiskSample.csv'' basiert. \Autocite{RiskSample} In diesem Datensatz werden verschiedene Attribute im Zusammenhang mit einer Kreditvergabe erfasst. Das Ziel ist es anhand von bestimmten Attributen das Risiko zu klassifizieren welches in dem Attribut \textit{RISK} erfasst wird. Dabei wird zwischen hohem Risiko \textit{good risk}, schlechtem Profit \textit{bad profit} und schwerem Verlust \textit{bad loss} unterschieden.
+Der Datensatz ist exemplarisch in Auszügen in Tabelle \ref{table:datensatz} dargestellt. 
+
+\begin{center}
+    \begin{table}[htbp]
+        \begin{tabularx}{\linewidth}{cccccc}
+            \toprule
+            \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
+            \toprule
+            45 & 58381 & 1.0 & Yes & 0.0 & good risk \\
+            38 & 55752 & 0.0 & Yes & 1.0 & good risk \\
+            34 & 55497 & 1.0 & Yes & 1.0 & bad profit \\
+            42 & 55140 & 1.0 & Yes & 0.0 & good risk \\
+            38 & 52887 & 0.0 & Yes & 0.0 & good risk \\
+            37 & 52545 & 1.0 & Yes & 0.0 & good risk \\
+            45 & 50552 & 0.0 & Yes & 0.0 & good risk \\
+            40 & 50199 & 0.0 & Yes & 0.0 & bad profit \\
+            42 & 49485 & 1.0 & Yes & 1.0 & good risk \\
+            39 & 49415 & 0.0 & Yes & 0.0 & good risk \\
+            \bottomrule
+        \end{tabularx}
+        \caption{Auszug aus dem originalen Datensatz mit ausgewählten Attributen}
+        \label{table:datensatz}
+    \end{table}
+\end{center}
+
+Der originale Datensatz erfasst insgesamt 11 Attribute. Diese sind \textit{AGE}, \textit{INCOME}, \textit{GENDER}, \textit{MARTIAL}, \textit{NUMKIDS}, \textit{NUMCARDS}, \textit{HOWPAID}, \textit{MORTGAGE}, \textit{STORECAR}, \textit{LOANS} und \textit{ID}. Der Beispiel-Datensatz für den ID3 Algorithmus berücksichtigt davon nur noch fünf Attribute, nämlich \textit{AGE}, \textit{INCOME}, \textit{NUMKIDS}, \textit{MORTGAGE} und \textit{LOANS}.
+
+\subsection{Transformation}
+\label{id3:datensatz-trans}
+
+Bevor die Daten verwendet werden, müssen sie zunächst eine Transformation durchlaufen, wobei diese ''bereiningt'' werden. Im nachfolgenden werden daher die Transformationen der betroffenen Attribute dargelegt.
+
+Bei diesem Attribut \textit{AGE} handelt es sich um das Alter einer Person welches im originalen Datensatz als Integer vorliegt. Im Zuge der Diskretisierung dieses Attributes wird das Alter in drei Kategorien eingeteilt. Dies sind \textit{Young} (unter 30 Jahren), \textit{Middle} (zwischen 30 und 50 Jahren) und \textit{Old} (über 50 Jahre). Hierbei ist zu beachten dass das Alter im Datensatz lediglich zwischen minimal 18 und maximal 60 Jahren liegt.
+
+Das Attribut \textit{INCOME} liegt in originalen Datensatz als Integer vor und beziffert das jährliche Einkommen einer Person. Auch dieses Attribut wird diskretisiert und in vier Kategorien eingeteilt. Diese sind \textit{Low} (unter 20.000 Euro), \textit{Middle} (zwischen 20.000 und 30.000 Euro), \textit{High} (zwischen 30.000 und 50.000 Euro) und \textit{Very High} (über 50.000 Euro).
+
+\textit{NUMKIDS} erfasst im originalen Datensatz die Anzahl der Kinder einer Person. Allerdings wird dies im Ziel-Datensatz nicht länger berücksichtigt. Stattdessen gibt es nur eine Unterscheidung ob eine Person ein Kind hat oder nicht, also zwischen den beiden Zuständen \textit{Yes} (Person hat Kinder) und \textit{No} (Person hat keine Kinder).
+
+Im originalen Datensatz wird mit dem Attribut \textit{LOANS} die Anzahl der Darlehen erfasst während in dem transformierten Datensatz nur das Vorhandensein eventueller Darlehen, also nur die Zustände \textit{Yes} (Person hat bereits Darlehen) oder \textit{No} (Person hat aktuell kein Darlehen) erfasst werden.
+
+\pagebreak
+
+\subsection{Finaler Datensatz}
+\label{id3:datensatz-final}
+
+Nachdem alle Transformation duchgeführt wurden, ergibt sich für die Tabelle \ref{table:datensatz} nun folgende Struktur.
+
+\begin{center}
+    \begin{table}[htbp]
+        \begin{tabularx}{\linewidth}{cccccc}
+            \toprule
+            \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
+            \toprule
+            Old	    & Very High & Yes   & Yes & No	& good risk     \\
+            Middle  & Very High & No    & Yes & Yes	& good risk     \\
+            Middle  & Very High & Yes   & Yes & Yes	& bad profit    \\
+            Old	    & Very High	& Yes   & Yes & No	& good risk     \\
+            Middle  & Very High	& No    & Yes & No	& good risk     \\
+            Middle  & Very High	& Yes   & Yes & No	& good risk     \\
+            Old	    & Very High	& No    & Yes & No	& good risk     \\
+            Middle  & Very High	& No    & Yes & No	& bad profit    \\
+            Old	    & Very High	& Yes   & Yes & Yes	& good risk     \\
+            Middle	& Very High	& No    & Yes & No	& good risk     \\
+            \bottomrule
+        \end{tabularx}
+        \caption{Auszug aus dem transformierten Datensatz}
+        \label{table:datensatz}
+    \end{table}
+\end{center}

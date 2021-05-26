@@ -1,4 +1,4 @@
-;AGE;INCOME;GENDER;MARITAL;NUMKIDS;NUMCARDS;HOWPAID;MORTGAGE;STORECAR;LOANS;RISK
+ID;AGE;INCOME;GENDER;MARITAL;NUMKIDS;NUMCARDS;HOWPAID;MORTGAGE;STORECAR;LOANS;RISK
 0;Old;Very High;m;married;One;One;monthly;y;One;Zero;good risk
 1;Middle;Very High;m;married;Zero;Two;monthly;y;Two;One;good risk
 2;Middle;Very High;m;married;One;One;monthly;y;Two;One;bad profit

@@ -91,8 +91,7 @@ def ID3(data_set, target_attribute, attributes):
 S = load_csv("code/RiskSampleNormalized-Ausschnitt.csv")
 #S = load_csv("code/Weather.csv")
 
-training_data_set = split_data(S, 0.3)
+training_data_set = split_data(S, 0.3)[0]
+#test_data_set = pd.concat([S, training_data_set, training_data_set]).drop_duplicates(keep=False)
 
 Tree = ID3(training_data_set, "RISK", training_data_set.columns)
-
-plot_tree(Tree)

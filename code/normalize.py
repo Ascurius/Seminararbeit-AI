@@ -3,10 +3,11 @@ import pandas as pd
 import numpy as np
 
 file = "code/RiskSample.csv"
+file1 = "code/RiskSamplePreview.csv"
 
-df = pd.read_csv(file, sep=";")
+df = pd.read_csv(file1, sep=";")
 
-def normalize_age(data):
+def normalize(data):
 
     for idx, val in enumerate(data["AGE"]):
         if val <= 30:
@@ -25,9 +26,22 @@ def normalize_age(data):
             data["INCOME"][idx] = "High"
         elif (val > 45000) and (val < 60000):
             data["INCOME"][idx] = "Very High"
+
+    for idx, val in enumerate(data["NUMKIDS"]):
+        if val == 0.0:
+            data["NUMKIDS"][idx] = "No"
+        else:
+            data["NUMKIDS"][idx] = "Yes"
     
-    del data["ID"]
+    for idx, val in enumerate(data["LOANS"]):
+        if val == 0.0:
+            data["LOANS"][idx] = "No"
+        else:
+            data["LOANS"][idx] = "Yes"
 
-    data.to_csv("code/RiskSampleNormalized.csv", sep=";")
+    data.rename(columns={"NUMKIDS": "HASKIDS"})
+    #del data["ID"]
 
-normalize_age(df)
+    data.to_csv("code/RiskSampleNormalizedPreview.csv", sep=";")
+
+normalize(df)
