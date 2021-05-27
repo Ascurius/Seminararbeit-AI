@@ -1,30 +1,115 @@
 \section{Funktionsweise}
 \label{id3:funktionsweise}
 
-Der ID3 Algorithmus startet zu Beginn mit einem Datensatz verschiedenen Attributen wobei jedes Attribut unterschiedlich viele mögliche Werte haben kann. Wichtig ist dabei lediglicht dass das Attribute diskret ist. Darüber hinaus erhält der Algorithmus noch eine Angabe nach welchem Attribut klassifiziert werden soll. \autocite{ImplementationID3}
-
-Dabei macht sich der ID3 Algorithmus zwei Konzepte der Informationstheorie zu nutze. Es handelt sich zum einen um die Entropie und zum anderen um den Informationsgewinn. Beide Konzepte werden im nachfolgenden erläutert.
+Der ID3-Algorithmus macht sich zwei Konzepte der Informationstheorie zu nutze. Es handelt sich zum einen um die Entropie und zum anderen um den Informationsgewinn. Beide Konzepte werden im nachfolgenden erläutert. Im Anschhluss daran wird der eigentliche ID3 Algorithmus erläutert.
 
 \subsection{Entropie}
-In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. Unsicherheit angegeben. Dabei steht \textit{X} für die zu untersuchende Variable, bzw. das Attribut aus dem Datensatz. Dementsprechend ist $x_{i}$ eine mögliche Ausprägung des Attributes \textit{X} und \textit{P}($x_{i}$) die Wahrscheinlichkeit mit der ein Wert des Attributes \textit{X} die Ausprägung $x_{i}$ hat. \autocite{Entropy:online} Für den ID3 Algorithmus wird der Logarithmus zur Basis \textit{b=2} verwendet. \autocite{ImplementationID3}
+\label{id3:entropie}
+In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. Unsicherheit  einer Variablen \textit{X} angegeben. Dementsprechend ist $x_{i}$ eine mögliche Ausprägung der Variablen \textit{X} und \textit{P}($x_{i}$) die Wahrscheinlichkeit mit der die Variable \textit{X} die Ausprägung $x_{i}$ hat. \autocite{Entropy:online}
 
 \begin{figure}[htbp]
-    \begin{equation}
-        H(X) = - \sum_{i=1}^{n} P(x_{i}) log_{b} P(x_{i})
-    \end{equation}
-    \caption{Entropiegleichung nach Shennon \autocite{Entropy:online}}
+    \vspace{0.5cm}
+    \centering
+    $ H(X) = - \sum\limits_{i=1}^{n} P(x_{i}) \log_{b} P(x_{i}) $
+    \caption{Definition der Entropie nach Shennon\autocite{Entropy:online}}
 \end{figure}
 
-Möchte man Beispielsweise die Entropie eines Attributes \textit{X} berechnen in der sich folgende Ausprägungen finden lassen: 3 mal $x_{1}$, 4 mal $x_{2}$ und 2 mal $x_{3}$ so ergibt sich die unten stehende Berechnung.
+\textbf{\underline{Beispiel}:} Sei \textit{D} ein Datensatz in dem  das Attribut \textit{X} mit den möglichen Ausprägungen $x_{1}, x_{2}$ und $x_{3}$ vorkommt. Weiterhin gelte, dass $x_{1}$ neun mal, $x_{2}$ drei mal und $x_{3}$ fünf mal in \textit{D} vorhanden ist. Zur Bestimmung der Entropie von \textit{X} egribt sich die nachfolgende Berechnung. Für den ID3-Algorithmus wird üblicherweise der Logarithmus zur Basis \textit{b=2} verwendet. \autocite{ImplementationID3}
 
-\begin{align}
-    \begin{equation}
-        \text{H(X)} = -\sum_{i=1}^{9} \text{P(} x_{i} \text{)}  \log_{2} \text{P(} x_{i} \text{)}
-        %H(X) = - \sum_{i=1}^{9} P(x_{i}) \log_{2} P(x_{i})
-        H(X) = - \text{(} \frac{3}{9} \log_{2} \text{)}
-    \end{equation}
-\end{align}
-
+\begin{figure}[htbp]
+    \centering
+    \begin{align*}
+         H(X)   &= - \sum\limits_{i=1}^{3} P(x_{i}) \log_{2} P(x_{i})\\
+                &= - (P(x_{1}) \log_{2} P(x_{1}) + P(x_{2}) \log_{2} P(x_{2}) + P(x_{3}) \log_{2} P(x_{3}))\\
+                &= -\left(\frac{9}{17} \cdot \log_{2} \left(\frac{9}{17}\right) + %
+                    \frac{3}{17} \cdot \log_{2} \left(\frac{3}{17}\right) + %
+                    \frac{5}{17} \cdot \log_{2} \left(\frac{5}{17}\right)\right)\\
+                &\approx 0,485755 + 0,441618 + 0,519275\\
+                &\approx \underline{\underline{1,446648}}
+    \end{align*}
+    \caption{Exmeplarische Berechung der Entropie}
+\end{figure}
+\pagebreak
 \subsection{Informationsgewinn}
+\label{id3:gain}
+In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Maß an Informationen das über eine Zufallsvariablen \textit{X} durch Beobachtung einer anderen Zufallsvariablen \textit{Y} gewonnen werden kann. \autocite{DataMining} Konkret ergibt sich der Informationsgewinn aus der Differenz der Entropie \textit{H}(\textit{X}) und der bedingten Entropie \textit{H}(\textit{X}$\vert$\textit{Y}). \autocite{Informat29:online}\\
+
+\begin{figure}[H]
+    \label{fig:gain}
+    \vspace{0.5cm}
+    \centering
+        $ IG(X,Y) = H(X) - H(X\vert Y) = H(X) - \sum\limits_{v\in V} P(v)H(v)$
+    \caption{Allgemeine Definition des Informationsgewinns \autocite{DataMining}\autocite{BedingteEntropie:online}}
+\end{figure}
+
+\textbf{\underline{Beispiel}:} Sei \textit{S} ein Datensatz mit den in Tabelle \ref{table:gain} dargestellten Werten. Dabei seien \textit{A}, \textit{B}, \textit{C} und \textit{T} Attribute von \textit{S} mit den möglichen Ausprägungen $a_{i}\in A$, $b_{i}\in B$, $c_{i}\in C$ und $t_{k}\in T$, wobei $i\in\{1,2,3\}$ und $k\in\{True,False\}$. Sei weiterhin das Attribut \textit{T} das Zielattribut gegen das der Informationsgewinn der übrigen Attribute ermittelt werden soll.
+
+\begin{center}
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.8\linewidth}{ccccc}
+            \toprule
+            \textbf{ID} & \textbf{Attribut A} & \textbf{Attribut B} & \textbf{Attribut C} & \textbf{Attribut T}\\
+            \toprule
+            1 & $a_{1}$ & $b_{2}$ & $c_{3}$ & True  \\
+            2 & $a_{1}$ & $b_{2}$ & $c_{3}$ & False \\
+            3 & $a_{2}$ & $b_{2}$ & $c_{1}$ & False \\
+            4 & $a_{1}$ & $b_{2}$ & $c_{1}$ & True  \\
+            5 & $a_{2}$ & $b_{1}$ & $c_{3}$ & False \\ 
+            6 & $a_{2}$ & $b_{3}$ & $c_{1}$ & False \\
+            7 & $a_{1}$ & $b_{2}$ & $c_{2}$ & True  \\  
+            8 & $a_{3}$ & $b_{3}$ & $c_{3}$ & False  \\
+            \bottomrule
+        \end{tabularx}
+        \caption{Beispiel Datensatz \textit{S}}
+        \label{table:gain}
+    \end{table}
+\end{center}
+
+Im nachfolgenden wird der Informationsgewinn der einzelnen Attribute berechnet. Dabei wird zu erst die Entropie des Datensatz \textit{S} bestimmt, welche durch die Entropie des Zielattributes \textit{T} charakterisiert wird. Es gilt also $H(S) = H(T)$.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{align*}
+        H(S) = H(T) &= - \sum\limits_{i=1}^{2} P(x_{i}) \log_{2} P(x_{i}) \\
+                    &= - ( P(\text{True}) \log_{2} P(\text{True}) + P(\text{False}) \log_{2} P(\text{False}) ) \\
+                    &= - \left( \frac{3}{8} \cdot \log_{2} \left(\frac{3}{8}\right) + \frac{5}{8} \cdot \log_{2} \left(\frac{5}{8}\right)\right)\\
+                    &\approx \underline{0,954434}
+    \end{align*}
+\end{figure}
+
+Als nächstes müssen die bedingten Entropieen für die Attribute \textit{A}, \textit{B} und \textit{C} bestimmt werden. Bei der bedingten Entropie wird selbige nur für alle $t_{k}\in T$
+Dabei repräsentiert \textit{P}(\textit{v}) die Wahrscheinlichkeit mit der 
+
+\begin{figure}[htbp]
+    \begin{align*}
+        H(T)  &=  P(t_{1})  \\
+                    &=  \left( -\frac{1}{4} \cdot \log_{2}\left(\frac{1}{8}\right) - %
+                        \frac{3}{4} \cdot \log_{2}\left(\frac{3}{8}\right) \right)
+    \end{align*}
+    \begin{align*}
+        H(T\vert A) &= \sum\limits_{v\in V}P(v)H(v) \\
+                    &= P(a_{1}) \cdot H(A=a_{1}) + P(a_{2}) \cdot H(A=a_{2}) + P(a_{3}) \cdot H(A=a_{3}) \\
+                    &=  \frac{4}{8} \cdot  + %
+                        \frac{3}{8} \cdot \left( -\frac{3}{8} \cdot \log_{2}\left(\frac{3}{8}\right) \right) + %
+                        \frac{1}{8} \cdot \left( -\frac{1}{8} \cdot \log_{2}\left(\frac{1}{8}\right) \right) \\
+                    &= \frac{1}{4}
+    \end{align*}
+    \caption{\autocite{DataMining}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \vspace{0.5cm}
+    \centering
+    
+    \begin{align*}
+        IG(T,A) &= H(T) - H(T\vert A) \\
+                &= -
+    \end{align*}
+    \caption{Exemplarische Berechnung des Informationsgewinns}
+\end{figure}
+
+
 
 \subsection{Eigentlicher Algorithmus}
+Der ID3 Algorithmus startet zu Beginn mit einem Datensatz verschiedenen Attributen wobei jedes Attribut unterschiedlich viele mögliche Werte haben kann. Wichtig ist dabei lediglicht dass das Attribute diskret ist. Darüber hinaus erhält der Algorithmus noch eine Angabe nach welchem Attribut klassifiziert werden soll. \autocite{ImplementationID3}

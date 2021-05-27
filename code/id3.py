@@ -51,6 +51,11 @@ def calculate_information_gain(data_set, attribute, target_attribute):
         subset = data_set[data_set[attribute] == value][target_attribute]
         probablility = count[index] / sum(count)
         entropy += ( probablility * calculate_entropy(subset) )
+        #print(subset)
+        #print(f"Prob: {probablility}")
+        #print(f"Subset-Entropy: {calculate_entropy(subset)}")
+        #print(f"Entropy: {entropy}")
+        #print("----------------------------")
     information_gain = calculate_entropy(data_set[target_attribute]) - entropy
 
     return information_gain
@@ -88,10 +93,39 @@ def ID3(data_set, target_attribute, attributes):
             tree[highest_IG_attribute][value] = subtree
     return tree
 
-S = load_csv("code/RiskSampleNormalized-Ausschnitt.csv")
+#S = load_csv("code/RiskSampleNormalized-Ausschnitt.csv")
 #S = load_csv("code/Weather.csv")
 
-training_data_set = split_data(S, 0.3)[0]
+#training_data_set = split_data(S, 0.3)[0]
 #test_data_set = pd.concat([S, training_data_set, training_data_set]).drop_duplicates(keep=False)
 
-Tree = ID3(training_data_set, "RISK", training_data_set.columns)
+#Tree = ID3(training_data_set, "RISK", training_data_set.columns)
+
+
+df = pd.DataFrame(
+    {
+        "A": ["a", "a", "b", "a", "b", "b", "a", "c"],
+        "B": ["b", "b", "b", "b", "a", "c", "b", "c"],
+        "C": ["c", "c", "a", "a", "c", "a", "b", "c"],
+        "T": ["T","F", "F", "T", "F", "F", "T", "F"]
+    }
+)
+
+def entropy(target_col):
+    elements,counts = np.unique(target_col,return_counts = True)
+    entropy = np.sum([(-counts[i]/np.sum(counts))*np.log2(counts[i]/np.sum(counts)) for i in range(len(elements))])
+    return entropy
+
+def InfoGain(data,split_attribute_name,target_name="class"):
+    total_entropy = entropy(data[target_name])
+    
+    vals,counts= np.unique(data[split_attribute_name],return_counts=True)
+    
+    Weighted_Entropy = np.sum([(counts[i]/np.sum(counts))*entropy(data.where(data[split_attribute_name]==vals[i]).dropna()[target_name]) for i in range(len(vals))])
+    
+    Information_Gain = total_entropy - Weighted_Entropy
+    return Information_Gain
+
+print(calculate_information_gain(df, "A", "T"))
+print(InfoGain(df, "A", "T"))
+#print(calculate_all_IG(df, "T", df.columns))
