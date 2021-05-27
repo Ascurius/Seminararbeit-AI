@@ -51,11 +51,11 @@ def calculate_information_gain(data_set, attribute, target_attribute):
         subset = data_set[data_set[attribute] == value][target_attribute]
         probablility = count[index] / sum(count)
         entropy += ( probablility * calculate_entropy(subset) )
-        #print(subset)
-        #print(f"Prob: {probablility}")
-        #print(f"Subset-Entropy: {calculate_entropy(subset)}")
-        #print(f"Entropy: {entropy}")
-        #print("----------------------------")
+        print(subset)
+        print(f"Prob: {probablility}")
+        print(f"Bedingte-Entropie: {calculate_entropy(subset)}")
+        print(f"Entropie: {entropy}")
+        print("----------------------------")
     information_gain = calculate_entropy(data_set[target_attribute]) - entropy
 
     return information_gain
@@ -104,28 +104,10 @@ def ID3(data_set, target_attribute, attributes):
 
 df = pd.DataFrame(
     {
-        "A": ["a", "a", "b", "a", "b", "b", "a", "c"],
-        "B": ["b", "b", "b", "b", "a", "c", "b", "c"],
-        "C": ["c", "c", "a", "a", "c", "a", "b", "c"],
-        "T": ["T","F", "F", "T", "F", "F", "T", "F"]
+        "A": ["T", "T", "F", "F", "F"],
+        "B": ["T", "F", "F", "T", "T"],
+        "C": ["T", "T", "T", "T", "F"],
+        "T": ["T", "F", "F", "T", "F"]
     }
 )
-
-def entropy(target_col):
-    elements,counts = np.unique(target_col,return_counts = True)
-    entropy = np.sum([(-counts[i]/np.sum(counts))*np.log2(counts[i]/np.sum(counts)) for i in range(len(elements))])
-    return entropy
-
-def InfoGain(data,split_attribute_name,target_name="class"):
-    total_entropy = entropy(data[target_name])
-    
-    vals,counts= np.unique(data[split_attribute_name],return_counts=True)
-    
-    Weighted_Entropy = np.sum([(counts[i]/np.sum(counts))*entropy(data.where(data[split_attribute_name]==vals[i]).dropna()[target_name]) for i in range(len(vals))])
-    
-    Information_Gain = total_entropy - Weighted_Entropy
-    return Information_Gain
-
-print(calculate_information_gain(df, "A", "T"))
-print(InfoGain(df, "A", "T"))
-#print(calculate_all_IG(df, "T", df.columns))
+print(calculate_all_IG(df, "T", df.columns))

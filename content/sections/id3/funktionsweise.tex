@@ -32,17 +32,17 @@ In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. 
 \pagebreak
 \subsection{Informationsgewinn}
 \label{id3:gain}
-In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Maß an Informationen das über eine Zufallsvariablen \textit{X} durch Beobachtung einer anderen Zufallsvariablen \textit{Y} gewonnen werden kann. \autocite{DataMining} Konkret ergibt sich der Informationsgewinn aus der Differenz der Entropie \textit{H}(\textit{X}) und der bedingten Entropie \textit{H}(\textit{X}$\vert$\textit{Y}). \autocite{Informat29:online}\\
+In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Maß an Informationen das über eine Zufallsvariablen \textit{X} durch Beobachtung einer anderen Zufallsvariablen \textit{Y} gewonnen werden kann. \autocite{DataMining} Konkret ergibt sich der Informationsgewinn aus der Differenz der Entropie \textit{H}(\textit{X}) und der bedingten Entropie \textit{H}(\textit{X}$\vert$\textit{Y}). \autocite{Informat29:online}
 
 \begin{figure}[H]
     \label{fig:gain}
     \vspace{0.5cm}
     \centering
-        $ IG(X,Y) = H(X) - H(X\vert Y) = H(X) - \sum\limits_{v\in V} P(v)H(v)$
-    \caption{Allgemeine Definition des Informationsgewinns \autocite{DataMining}\autocite{BedingteEntropie:online}}
+        $ IG(X,Y) = H(X) - H(X\vert Y) = H(X) - \sum\limits_{y\in Y} P(Y=y)H(X\vert Y=y)$
+    \caption{Allgemeine Definition des Informationsgewinns \autocites{DataMining}{ConditionalEntropy:online}{BedingteEntropie:online}}
 \end{figure}
 
-\textbf{\underline{Beispiel}:} Sei \textit{S} ein Datensatz mit den in Tabelle \ref{table:gain} dargestellten Werten. Dabei seien \textit{A}, \textit{B}, \textit{C} und \textit{T} Attribute von \textit{S} mit den möglichen Ausprägungen $a_{i}\in A$, $b_{i}\in B$, $c_{i}\in C$ und $t_{k}\in T$, wobei $i\in\{1,2,3\}$ und $k\in\{True,False\}$. Sei weiterhin das Attribut \textit{T} das Zielattribut gegen das der Informationsgewinn der übrigen Attribute ermittelt werden soll.
+\textbf{\underline{Beispiel}:} Sei \textit{S} ein Datensatz mit den in Tabelle \ref{table:gain} dargestellten Werten. Außerdem seien \textit{A}, \textit{B}, \textit{C} und \textit{T} Attribute von \textit{S} mit den möglichen Ausprägungen \textit{True} und \textit{False}. Sei weiterhin das Attribut \textit{T} das Zielattribut gegen das der Informationsgewinn der übrigen Attribute ermittelt werden soll.
 
 \begin{center}
     \begin{table}[H]
@@ -51,65 +51,71 @@ In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Ma�
             \toprule
             \textbf{ID} & \textbf{Attribut A} & \textbf{Attribut B} & \textbf{Attribut C} & \textbf{Attribut T}\\
             \toprule
-            1 & $a_{1}$ & $b_{2}$ & $c_{3}$ & True  \\
-            2 & $a_{1}$ & $b_{2}$ & $c_{3}$ & False \\
-            3 & $a_{2}$ & $b_{2}$ & $c_{1}$ & False \\
-            4 & $a_{1}$ & $b_{2}$ & $c_{1}$ & True  \\
-            5 & $a_{2}$ & $b_{1}$ & $c_{3}$ & False \\ 
-            6 & $a_{2}$ & $b_{3}$ & $c_{1}$ & False \\
-            7 & $a_{1}$ & $b_{2}$ & $c_{2}$ & True  \\  
-            8 & $a_{3}$ & $b_{3}$ & $c_{3}$ & False  \\
+
+            1 & True    & True  & True  & False \\
+            2 & True    & False & True  & True \\
+            3 & False   & False & True  & True \\
+            4 & False   & True  & True  & False \\
+            5 & False   & True  & False & True \\
+
+            %1 & $a_{1}$ & $b_{2}$ & $c_{3}$ & True  \\
+            %2 & $a_{1}$ & $b_{2}$ & $c_{3}$ & False \\
+            %3 & $a_{2}$ & $b_{2}$ & $c_{1}$ & False \\
+            %4 & $a_{1}$ & $b_{2}$ & $c_{1}$ & True  \\
+            %5 & $a_{2}$ & $b_{1}$ & $c_{3}$ & False \\ 
+            %6 & $a_{2}$ & $b_{3}$ & $c_{1}$ & False \\
+            %7 & $a_{1}$ & $b_{2}$ & $c_{2}$ & True  \\  
+            %8 & $a_{3}$ & $b_{3}$ & $c_{3}$ & False  \\
             \bottomrule
         \end{tabularx}
-        \caption{Beispiel Datensatz \textit{S}}
+        \caption{Beispiel Datensatz \textit{S} \autocite{Informat29:online}}
         \label{table:gain}
     \end{table}
 \end{center}
 
-Im nachfolgenden wird der Informationsgewinn der einzelnen Attribute berechnet. Dabei wird zu erst die Entropie des Datensatz \textit{S} bestimmt, welche durch die Entropie des Zielattributes \textit{T} charakterisiert wird. Es gilt also $H(S) = H(T)$.
+Im nachfolgenden wird der Informationsgewinn für das Attribut \textit{A} berechnet. Dabei wird zu erst die Entropie des Datensatz \textit{S} bestimmt, welche durch die Entropie des Zielattributes \textit{T} charakterisiert wird. Es gilt also $H(S) = H(T)$.
 
 \begin{figure}[htbp]
     \centering
     \begin{align*}
         H(S) = H(T) &= - \sum\limits_{i=1}^{2} P(x_{i}) \log_{2} P(x_{i}) \\
                     &= - ( P(\text{True}) \log_{2} P(\text{True}) + P(\text{False}) \log_{2} P(\text{False}) ) \\
-                    &= - \left( \frac{3}{8} \cdot \log_{2} \left(\frac{3}{8}\right) + \frac{5}{8} \cdot \log_{2} \left(\frac{5}{8}\right)\right)\\
-                    &\approx \underline{0,954434}
+                    &= - \left( \frac{3}{5} \cdot \log_{2} \left(\frac{3}{5}\right) + \frac{2}{5} \cdot \log_{2} \left(\frac{2}{5}\right)\right)\\
+                    &\approx 0,970951
     \end{align*}
 \end{figure}
 
-Als nächstes müssen die bedingten Entropieen für die Attribute \textit{A}, \textit{B} und \textit{C} bestimmt werden. Bei der bedingten Entropie wird selbige nur für alle $t_{k}\in T$
-Dabei repräsentiert \textit{P}(\textit{v}) die Wahrscheinlichkeit mit der 
+Als nächstes müssen die bedingte Entropie für das Attribut \textit{A} berechnet werden. \autocites{BedingteEntropie:online}{ConditionalEntropy:online}
 
 \begin{figure}[htbp]
+    \centering
     \begin{align*}
-        H(T)  &=  P(t_{1})  \\
-                    &=  \left( -\frac{1}{4} \cdot \log_{2}\left(\frac{1}{8}\right) - %
-                        \frac{3}{4} \cdot \log_{2}\left(\frac{3}{8}\right) \right)
+        H(T\vert A) &= \sum\limits_{a\in A}P(A=a) \cdot H(T\vert A=a) \\
+                    &= P(A=True) \cdot H(T\vert A=True) + P(A=False) \cdot H(T\vert A=False) \\
+                    &= \frac{2}{5} \cdot \left( -\frac{1}{2} \cdot \log_2\left( \frac{1}{2} \right) - \frac{1}{2} \cdot \log_{2}\left( \frac{1}{2} \right) \right) + \frac{3}{5} \cdot \left( -\frac{1}{3} \cdot \log_{2}\left( \frac{1}{3} \right) - \frac{2}{3} \cdot \log_{2}\left( \frac{2}{3} \right) \right) \\
+                    &= \frac{2}{5} \cdot 1 + \frac{3}{5} \cdot 0,918296\\
+                    &\approx 0.950978
     \end{align*}
-    \begin{align*}
-        H(T\vert A) &= \sum\limits_{v\in V}P(v)H(v) \\
-                    &= P(a_{1}) \cdot H(A=a_{1}) + P(a_{2}) \cdot H(A=a_{2}) + P(a_{3}) \cdot H(A=a_{3}) \\
-                    &=  \frac{4}{8} \cdot  + %
-                        \frac{3}{8} \cdot \left( -\frac{3}{8} \cdot \log_{2}\left(\frac{3}{8}\right) \right) + %
-                        \frac{1}{8} \cdot \left( -\frac{1}{8} \cdot \log_{2}\left(\frac{1}{8}\right) \right) \\
-                    &= \frac{1}{4}
-    \end{align*}
-    \caption{\autocite{DataMining}}
 \end{figure}
 
-\begin{figure}[htbp]
+Nachdem nun sowohl die Entropie als auch die bedingte Entropie berechnet sind kann final der Informationsgewinn bestimmt werden.
+
+\begin{figure}[h]
     \vspace{0.5cm}
     \centering
-    
     \begin{align*}
         IG(T,A) &= H(T) - H(T\vert A) \\
-                &= -
+                &= 0,970951 - 0.950978 \\
+                &= \underline{\underline{0,019973}}
     \end{align*}
-    \caption{Exemplarische Berechnung des Informationsgewinns}
 \end{figure}
 
-
+Analog können die Informationsgewinne für die Attribute \textit{B} und \textit{C} berechnet werden. Diese liegen bei $ IG(T, B) = 0,419973 $ und bei $ IG(T, C) = 0,170951 $.
 
 \subsection{Eigentlicher Algorithmus}
-Der ID3 Algorithmus startet zu Beginn mit einem Datensatz verschiedenen Attributen wobei jedes Attribut unterschiedlich viele mögliche Werte haben kann. Wichtig ist dabei lediglicht dass das Attribute diskret ist. Darüber hinaus erhält der Algorithmus noch eine Angabe nach welchem Attribut klassifiziert werden soll. \autocite{ImplementationID3}
+Der ID3 Algorithmus startet mit einem Datensatz \textit{S} mit \textit{n} Objekten welche  verschiedenen Attribute \textit{A} und eine Klassifizierung \textit{C} besitzen. \autocites{ImplementationID3}{QuinlanID3} Die Werte der Attribute $A_{1},A_{2},...,A_{k}$ sind dabei normalerweise endlich und diskret. \autocite{ThailandID3}\\
+Zu Beginn muss zunächst ein Wurzelknoten bestimmt werden. Dazu wird der Informationsgewinn \textit{IG}(\textit{S}) für jedes Attribut $A_{1},A_{2},...,A_{k}$ von \textit{S} berechnet. Das Attribut mit dem höchsten Informationsgewinnungswert wird dann als Wurzelknoten gewählt. Basierend auf dem ausgewählten Attribut wird \textit{S} aufgeteilt.
+
+\subsection{Eigenschaften von ID3}
+\label{id3:eigenschaften}
+Der ID3-Algorithmus führt eine Best-First-Search für lokale Optima durch. Außerdem ist ID3 ein gieriger Algorithmus, da er stets das Attribut auswählt welches lokal den besten Informationsgewinn aufweist.
