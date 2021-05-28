@@ -16,42 +16,28 @@ def plot_tree(tree):
     return tree
 
 def split_data(data_set, split_point):
-    training_data_set = S.sample(frac=split_point)
-    test_data_set = S.drop(training_data_set.index)
+    training_data_set = data_set.sample(frac=split_point)
+    test_data_set = data_set.drop(training_data_set.index)
     return training_data_set, test_data_set
 
-def unique(iterable):
-
-    list_unique = set(iterable)
-    list_unique_sorted = sorted(list_unique)
-    list_unique_sorted_count = {}
-
-    for unique_value in list_unique_sorted:
-        count = 0
-        for value in iterable:
-            if value == unique_value:
-                count += 1
-        list_unique_sorted_count[unique_value] = count
-
-    return list_unique_sorted_count
-
 def entropy(attribute):
-    entropy = 0
-    _, count = np.unique(attribute, return_counts=True)
-    for index in range(len(count)):
+    entropy = 0.0
+    values, count = np.unique(attribute, return_counts=True)
+    for index in range(len(values)):
         probablility = count[index] / sum(count)
         entropy += (-probablility * np.log2(probablility))
     return entropy
 
 def information_gain(data_set, attribute, target_attribute):
     values, count = np.unique(data_set[attribute], return_counts=True)
-    entropy = 0
+    entropy_val = 0.0
     
     for index, value in enumerate(values):
         subset = data_set[data_set[attribute] == value][target_attribute]
         probablility = count[index] / sum(count)
-        entropy += ( probablility * entropy(subset) )
-    information_gain = entropy(data_set[target_attribute]) - entropy
+        entropy_val += ( probablility * entropy(subset) )
+    target_entropy = entropy(data_set[target_attribute])
+    information_gain = target_entropy - entropy_val
 
     return information_gain
 
@@ -74,35 +60,32 @@ def ID3(data_set, target_attribute, attributes):
         return modal(data_set[target_attribute])
 
     IG = calculate_all_IG(data_set, target_attribute, attributes)
-    root = max(IG, key=lambda k: IG[k])
-    highest_IG_attribute = root
-    tree = {highest_IG_attribute: {}}
-    attributes = [x for x in attributes if x != highest_IG_attribute]
-
-    for value in np.unique(data_set[highest_IG_attribute]):
-        subset = data_set[data_set[highest_IG_attribute] == value]
+    best_attribute = max(IG, key=lambda k: IG[k])
+    tree = {best_attribute: {}}
+    attributes = [x for x in attributes if x != best_attribute]
+    
+    for value in np.unique(data_set[best_attribute]):
+        subset = data_set[data_set[best_attribute] == value]
         if subset.empty:
-            tree[highest_IG_attribute][value] = modal(data_set[target_attribute])
+            modal_value = modal(data_set[target_attribute])
+            tree[best_attribute][value] = modal_value
         else:
             subtree = ID3(subset, target_attribute, attributes)
-            tree[highest_IG_attribute][value] = subtree
+            tree[best_attribute][value] = subtree
+        c += 1
     return tree
 
-#S = load_csv("code/RiskSampleNormalized-Ausschnitt.csv")
-#S = load_csv("code/Weather.csv")
+S = load_csv("code/data/RiskSampleNormalizedPreview.csv")
 
-#training_data_set = split_data(S, 0.3)[0]
 #test_data_set = pd.concat([S, training_data_set, training_data_set]).drop_duplicates(keep=False)
+
+S.iloc[452]["INCOME"] = "Very High"
+S.iloc[401]["LOANS"] = "No"
+training_data_set = S.iloc[[98, 204, 30, 155, 57, 495, 478, 401, 452, 311]]
+subdata = training_data_set[training_data_set["INCOME"] == "Middle"]
+print(subdata)
+print(calculate_all_IG(subdata, "RISK", subdata.columns))
 
 #Tree = ID3(training_data_set, "RISK", training_data_set.columns)
 
-
-df = pd.DataFrame(
-    {
-        "A": ["T", "T", "F", "F", "F"],
-        "B": ["T", "F", "F", "T", "T"],
-        "C": ["T", "T", "T", "T", "F"],
-        "T": ["T", "F", "F", "T", "F"]
-    }
-)
-print(calculate_all_IG(df, "T", df.columns))
+#plot_tree(tree)

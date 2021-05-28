@@ -1,30 +1,28 @@
-\section{Verwendeter Beispiel Datensatz}
+\section{Beispiel Datensatz}
 \label{id3:datensatz}
-Für diese Arbeit wurde ein Datensatz verwendet welcher auf ''RiskSample.csv'' basiert. \Autocite{RiskSample} In diesem Datensatz werden verschiedene Attribute im Zusammenhang mit einer Kreditvergabe erfasst. Das Ziel ist es anhand von bestimmten Attributen das Risiko zu klassifizieren welches in dem Attribut \textit{RISK} erfasst wird. Dabei wird zwischen hohem Risiko \textit{good risk}, schlechtem Profit \textit{bad profit} und schwerem Verlust \textit{bad loss} unterschieden.
-Der Datensatz ist exemplarisch in Auszügen in Tabelle \ref{table:datensatz} dargestellt. 
+Für diese Arbeit wurde ein Datensatz verwendet welcher auf ''RiskSample.csv'' basiert. \Autocite{RiskSample} In diesem Datensatz werden verschiedene Attribute im Zusammenhang mit einer Kreditvergabe erfasst. Das Ziel ist es anhand von bestimmten Attributen das Kreditrisiko zu klassifizieren welches in dem Attribut \textit{RISK} erfasst wird. Dabei wird zwischen hohem Risiko (\textit{good risk}), schlechtem Profit (\textit{bad profit}) und schwerem Verlust (\textit{bad loss}) unterschieden. Für die Zwecke dieser Arbeit wird nur der in Tabelle \ref{table:datensatz} dargestellte Auszug des originalen Datensatzes verwendet.
 
-\begin{center}
-    \begin{table}[htbp]
-        \begin{tabularx}{\linewidth}{cccccc}
-            \toprule
-            \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
-            \toprule
-            45 & 58381 & 1.0 & Yes & 0.0 & good risk \\
-            38 & 55752 & 0.0 & Yes & 1.0 & good risk \\
-            34 & 55497 & 1.0 & Yes & 1.0 & bad profit \\
-            42 & 55140 & 1.0 & Yes & 0.0 & good risk \\
-            38 & 52887 & 0.0 & Yes & 0.0 & good risk \\
-            37 & 52545 & 1.0 & Yes & 0.0 & good risk \\
-            45 & 50552 & 0.0 & Yes & 0.0 & good risk \\
-            40 & 50199 & 0.0 & Yes & 0.0 & bad profit \\
-            42 & 49485 & 1.0 & Yes & 1.0 & good risk \\
-            39 & 49415 & 0.0 & Yes & 0.0 & good risk \\
-            \bottomrule
-        \end{tabularx}
-        \caption{Auszug aus dem originalen Datensatz mit ausgewählten Attributen}
-        \label{table:datensatz}
-    \end{table}
-\end{center}
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{\linewidth}{cccccc}
+        \toprule
+        \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
+        \toprule
+        42.0    &29540.0	&3.0	&Yes	&2.0	&bad loss       \\
+        28.0	&24332.0	&1.0	&No 	&1.0	&bad loss       \\
+        36.0	&44048.0	&1.0	&Yes	&0.0	&good risk      \\ 
+        44.0	&25971.0	&4.0	&Yes    &3.0	&bad loss       \\
+        35.0	&41132.0	&0.0	&Yes	&1.0	&good risk      \\
+        22.0	&15279.0	&0.0	&No 	&1.0	&bad profit     \\
+        44.0	&16494.0	&2.0	&Yes	&1.0	&bad loss       \\
+        24.0	&19782.0	&0.0	&No 	&0.0	&bad loss       \\
+        21.0	&53402.0	&2.0	&Yes	&2.0	&bad loss       \\
+        28.0	&22070.0	&1.0	&Yes	&1.0	&bad profit     \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Originaler Beispiel Datensatz}
+    \label{table:datensatz}
+\end{table}
 
 Der originale Datensatz erfasst insgesamt 11 Attribute. Diese sind \textit{AGE}, \textit{INCOME}, \textit{GENDER}, \textit{MARTIAL}, \textit{NUMKIDS}, \textit{NUMCARDS}, \textit{HOWPAID}, \textit{MORTGAGE}, \textit{STORECAR}, \textit{LOANS} und \textit{ID}. Der Beispiel-Datensatz für den ID3 Algorithmus berücksichtigt davon nur noch fünf Attribute, nämlich \textit{AGE}, \textit{INCOME}, \textit{NUMKIDS}, \textit{MORTGAGE} und \textit{LOANS}.
 
@@ -46,25 +44,24 @@ Im originalen Datensatz wird mit dem Attribut \textit{LOANS} die Anzahl der Darl
 
 Nachdem alle Transformation duchgeführt wurden, ergibt sich für die Tabelle \ref{table:datensatz} nun folgende Struktur.
 
-\begin{center}
-    \begin{table}[htbp]
-        \begin{tabularx}{\linewidth}{cccccc}
-            \toprule
-            \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
-            \toprule
-            Old	    & Very High & Yes   & Yes & No	& good risk     \\
-            Middle  & Very High & No    & Yes & Yes	& good risk     \\
-            Middle  & Very High & Yes   & Yes & Yes	& bad profit    \\
-            Old	    & Very High	& Yes   & Yes & No	& good risk     \\
-            Middle  & Very High	& No    & Yes & No	& good risk     \\
-            Middle  & Very High	& Yes   & Yes & No	& good risk     \\
-            Old	    & Very High	& No    & Yes & No	& good risk     \\
-            Middle  & Very High	& No    & Yes & No	& bad profit    \\
-            Old	    & Very High	& Yes   & Yes & Yes	& good risk     \\
-            Middle	& Very High	& No    & Yes & No	& good risk     \\
-            \bottomrule
-        \end{tabularx}
-        \caption{Auszug aus dem transformierten Datensatz}
-        \label{table:datensatz}
-    \end{table}
-\end{center}
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{\linewidth}{cccccc}
+        \toprule
+        \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
+        \toprule
+        Old    & Middle    & Yes &     Yes &  Yes &   bad loss \\
+        Old    & Middle    & Yes &     No  &  Yes &   bad loss \\
+        Middle & High      & Yes &     Yes &  Yes &  good risk \\
+        Middle & Middle    & Yes &     Yes &  Yes &   bad loss \\
+        Old    & High      & No  &     Yes &  Yes &  good risk \\
+        Young  & Low       & No  &     No  &  Yes & bad profit \\
+        Old    & Low       & Yes &     Yes &  Yes &   bad loss \\
+        Old    & Low       & Yes &     No  &  No  &   bad loss \\
+        Old    & Very High & Yes &     Yes &  Yes &   bad loss \\
+        Old    & Middle    & Yes &     Yes &  Yes & bad profit \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Transformierter Beispiel Datensatz}
+    \label{table:trans-datensatz}
+\end{table}

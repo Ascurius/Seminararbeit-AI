@@ -7,7 +7,7 @@ file1 = "code/RiskSamplePreview.csv"
 
 df = pd.read_csv(file1, sep=";")
 
-def normalize(data):
+def normalize(data, filename):
 
     for idx, val in enumerate(data["AGE"]):
         if val <= 30:
@@ -39,9 +39,6 @@ def normalize(data):
         else:
             data["LOANS"][idx] = "Yes"
 
-    data.rename(columns={"NUMKIDS": "HASKIDS"})
-    #del data["ID"]
+    data.to_csv(filename, sep=";")
 
-    data.to_csv("code/RiskSampleNormalizedPreview.csv", sep=";")
-
-normalize(df)
+normalize(df, "code/data/RiskSampleNormalizedPreview.csv")
