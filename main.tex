@@ -11,6 +11,8 @@
 \usepackage{booktabs}
 \usepackage{minted}
 \usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage[hidelinks]{hyperref} % Macht Referenzen anklickbar
 
 %%%% LANGUAGE PACKAGES %%%%
 \usepackage[utf8]{inputenc}
@@ -41,6 +43,13 @@
 %%% CONTENT %%%
 
 \input{content/cover.tex}
+
+%%% Verzeichnisse %%%
+\tableofcontents % Inhaltsverzeichnis
+\listoffigures % Abbildungsverzeichnis
+\listoftables % Tabellenverzeichnis
+
+
 \input{content/abstract.tex}
 \input{content/introduction.tex}
 \input{content/content.tex}

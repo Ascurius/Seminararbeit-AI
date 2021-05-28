@@ -1,7 +1,7 @@
-\section{Funktionsweise}
+\section{Grundlagen}
 \label{id3:funktionsweise}
 
-Der ID3-Algorithmus macht sich zwei Konzepte der Informationstheorie zu nutze. Es handelt sich zum einen um die Entropie und zum anderen um den Informationsgewinn. Beide Konzepte werden im nachfolgenden erläutert. Im Anschhluss daran wird der eigentliche ID3 Algorithmus erläutert.
+Der ID3-Algorithmus macht sich zwei Konzepte der Informationstheorie zu nutze. Es handelt sich zum einen um die Entropie und zum anderen um den Informationsgewinn. Beide Konzepte werden im nachfolgenden erläutert. Im Anschhluss daran wird die eigentliche Funktionsweise des ID3 Algorithmus erläutert.
 
 \subsection{Entropie}
 \label{id3:entropie}
@@ -21,9 +21,9 @@ In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. 
     \begin{align*}
          H(X)   &= - \sum\limits_{i=1}^{3} P(x_{i}) \log_{2} P(x_{i})\\
                 &= - (P(x_{1}) \log_{2} P(x_{1}) + P(x_{2}) \log_{2} P(x_{2}) + P(x_{3}) \log_{2} P(x_{3}))\\
-                &= -\left(\frac{9}{17} \cdot \log_{2} \left(\frac{9}{17}\right) + %
-                    \frac{3}{17} \cdot \log_{2} \left(\frac{3}{17}\right) + %
-                    \frac{5}{17} \cdot \log_{2} \left(\frac{5}{17}\right)\right)\\
+                &= -\frac{9}{17} \cdot \log_{2} \left(\frac{9}{17}\right) - %
+                    \frac{3}{17} \cdot \log_{2} \left(\frac{3}{17}\right) - %
+                    \frac{5}{17} \cdot \log_{2} \left(\frac{5}{17}\right)\\
                 &\approx 0,485755 + 0,441618 + 0,519275\\
                 &\approx \underline{\underline{1,446648}}
     \end{align*}
@@ -38,7 +38,7 @@ In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Ma�
     \label{fig:gain}
     \vspace{0.5cm}
     \centering
-        $ IG(X,Y) = H(X) - H(X\vert Y) = H(X) - \sum\limits_{y\in Y} P(Y=y)H(X\vert Y=y)$
+        $ IG(X,Y) = H(X) - H(X\vert Y) = H(X) - \sum\limits_{y\in Y} P(y)H(X\vert Y=y)$
     \caption{Allgemeine Definition des Informationsgewinns \autocites{DataMining}{ConditionalEntropy:online}{BedingteEntropie:online}}
 \end{figure}
 
@@ -68,7 +68,7 @@ In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Ma�
             %8 & $a_{3}$ & $b_{3}$ & $c_{3}$ & False  \\
             \bottomrule
         \end{tabularx}
-        \caption{Beispiel Datensatz \textit{S} \autocite{Informat29:online}}
+        \caption{Beispiel Datensatz \textit{S} zur Berechnung des Informationsgewinns \autocite{Informat29:online}}
         \label{table:gain}
     \end{table}
 \end{center}
@@ -80,12 +80,12 @@ Im nachfolgenden wird der Informationsgewinn für das Attribut \textit{A} berech
     \begin{align*}
         H(S) = H(T) &= - \sum\limits_{i=1}^{2} P(x_{i}) \log_{2} P(x_{i}) \\
                     &= - ( P(\text{True}) \log_{2} P(\text{True}) + P(\text{False}) \log_{2} P(\text{False}) ) \\
-                    &= - \left( \frac{3}{5} \cdot \log_{2} \left(\frac{3}{5}\right) + \frac{2}{5} \cdot \log_{2} \left(\frac{2}{5}\right)\right)\\
+                    &= - \frac{3}{5} \cdot \log_{2} \left(\frac{3}{5}\right) - \frac{2}{5} \cdot \log_{2} \left(\frac{2}{5}\right)\\
                     &\approx 0,970951
     \end{align*}
 \end{figure}
 
-Als nächstes müssen die bedingte Entropie für das Attribut \textit{A} berechnet werden. \autocites{BedingteEntropie:online}{ConditionalEntropy:online}
+Im nächsten Schritt wird die bedingte Entropie für das Attribut \textit{A} berechnet. \autocites{BedingteEntropie:online}{ConditionalEntropy:online}
 
 \begin{figure}[htbp]
     \centering
@@ -110,12 +110,20 @@ Nachdem nun sowohl die Entropie als auch die bedingte Entropie berechnet sind ka
     \end{align*}
 \end{figure}
 
-Analog können die Informationsgewinne für die Attribute \textit{B} und \textit{C} berechnet werden. Diese liegen bei $ IG(T, B) = 0,419973 $ und bei $ IG(T, C) = 0,170951 $.
+Analog können die Informationsgewinne für die Attribute \textit{B} und \textit{C} berechnet werden. Diese liegen bei $ IG(T, B) = \textit{0,419973} $ und bei $ IG(T, C) = \textit{0,170951} $.
 
-\subsection{Eigentlicher Algorithmus}
-Der ID3 Algorithmus startet mit einem Datensatz \textit{S} mit \textit{n} Objekten welche  verschiedenen Attribute \textit{A} und eine Klassifizierung \textit{C} besitzen. \autocites{ImplementationID3}{QuinlanID3} Die Werte der Attribute $A_{1},A_{2},...,A_{k}$ sind dabei normalerweise endlich und diskret. \autocite{ThailandID3}\\
-Zu Beginn muss zunächst ein Wurzelknoten bestimmt werden. Dazu wird der Informationsgewinn \textit{IG}(\textit{S}) für jedes Attribut $A_{1},A_{2},...,A_{k}$ von \textit{S} berechnet. Das Attribut mit dem höchsten Informationsgewinnungswert wird dann als Wurzelknoten gewählt. Basierend auf dem ausgewählten Attribut wird \textit{S} aufgeteilt.
+\subsection{Funktionsweise}
+Der ID3 Algorithmus startet mit einem Datensatz \textit{S} mit Objekten $O_{1},...,O_{n}$ welche verschiedenen Attribute $A_{1},...,A_{k}$ und eine Klassifizierung \textit{C} besitzen. \autocites{ImplementationID3}{QuinlanID3} Die Werteausprägungen der Attribute sind dabei normalerweise endlich und diskret. \autocite{ThailandID3}\\
+Zu Beginn muss zunächst Knoten bestimmt werden. Dazu wird der Informationsgewinn \textit{IG}(\textit{S}) für jedes Attribut $A_{1},...,A_{k}$ berechnet. Das Attribut $A_{H}$ mit dem höchsten Informationsgewinnungswert wird dann als Knoten gewählt. Dabei gilt das $A_{H}$ die möglichen Ausprägungen $a_{1},...,a_{v}$ haben kann. Basierend auf $A_{H}$ wird \textit{S} in $S_{1},...,S_{v}$ Teilmengen zerlegt wobei die Teilmenge $S_{i}$ die Objekte aus \textit{S} beinhaltet deren Wert in $A_{H}$ die Ausprägungen $a_{i}$ hat. Anders ausgedrückt gilt $S_{i} = \{S\vert A_{H} = a_{i}\}$. Für jede Teilmenge $S_{i}$ wird dann rekursiv der vorher beschriebene Prozess für die verleibenden Attribute $\{A_{1},...,A_{k}\}\setminus A_{H}$ durchlaufen wodurch entsprechende Teilbäume erzeugt werden. \Autocite{QuinlanID3} Dabei wird die Rekursion beendet sofern:
+
+\begin{enumerate}
+    \item alle Objekte aus $S_{i}$ die gleiche Ausprägung $C_{i}$ der Klassifizierung \textit{C} besitzen. In diesem Fall wird der zu diesem Zeitpunkt ausgewählte Knoten zu einem Blatt mit der Ausprägung $C_{i}$. \autocites{QuinlanID3}{ID3algor15:online}
+    \item bereits alle Attribute $A_{1},...,A_{k}$ für den Entscheidungsbaum verwendet worden sind, es also keine Attribute mehr gibt mittels derer ein Objekt aus $S_{i}$ klassifiziert werden könnte, aber nicht alle Objekte der selben Klassifizierung $C_{i}$ zugeordnet werden können. In diesem Fall wird der aktuelle Knoten zu einem Blatt, welchem der Modalwert von \textit{C} zugeordnet wird.\autocites{QuinlanID3}{ID3algor15:online}
+    \item die Teilmenge $S_{i}$ keine Objekte mehr beinhaltet, sie also leer ist. Dies tritt ein wenn sich in der übergeordneten Menge keine Objekte befinden welche die Ausprägung $a_{i}$ eines Attributes $A_{M}$ besitzen. In diesem Fall wird ein Blatt erzeugt welchem der Modalwert von \textit{C} aus der übergeordneten Menge zugeordnet wird. \autocite{ID3algor15:online}
+\end{enumerate}
 
 \subsection{Eigenschaften von ID3}
 \label{id3:eigenschaften}
 Der ID3-Algorithmus führt eine Best-First-Search für lokale Optima durch. Außerdem ist ID3 ein gieriger Algorithmus, da er stets das Attribut auswählt welches lokal den besten Informationsgewinn aufweist.
+
+\textbf{TODO: Vervollständigen}

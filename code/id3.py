@@ -35,7 +35,7 @@ def unique(iterable):
 
     return list_unique_sorted_count
 
-def calculate_entropy(attribute):
+def entropy(attribute):
     entropy = 0
     _, count = np.unique(attribute, return_counts=True)
     for index in range(len(count)):
@@ -43,20 +43,15 @@ def calculate_entropy(attribute):
         entropy += (-probablility * np.log2(probablility))
     return entropy
 
-def calculate_information_gain(data_set, attribute, target_attribute):
+def information_gain(data_set, attribute, target_attribute):
     values, count = np.unique(data_set[attribute], return_counts=True)
     entropy = 0
     
     for index, value in enumerate(values):
         subset = data_set[data_set[attribute] == value][target_attribute]
         probablility = count[index] / sum(count)
-        entropy += ( probablility * calculate_entropy(subset) )
-        print(subset)
-        print(f"Prob: {probablility}")
-        print(f"Bedingte-Entropie: {calculate_entropy(subset)}")
-        print(f"Entropie: {entropy}")
-        print("----------------------------")
-    information_gain = calculate_entropy(data_set[target_attribute]) - entropy
+        entropy += ( probablility * entropy(subset) )
+    information_gain = entropy(data_set[target_attribute]) - entropy
 
     return information_gain
 
@@ -64,10 +59,10 @@ def calculate_all_IG(data_set, target_attribute, attributes):
     total_IG = {}
     for attribute in attributes:
         if attribute != target_attribute:
-            total_IG[attribute] = calculate_information_gain(data_set, attribute, target_attribute)
+            total_IG[attribute] = information_gain(data_set, attribute, target_attribute)
     return total_IG
 
-def most_common_value(list):
+def modal(list):
     values, count = np.unique(list, return_counts=True)
     total = dict(zip(values, count))
     return max(total, key=lambda k: total[k])
@@ -76,7 +71,7 @@ def ID3(data_set, target_attribute, attributes):
     if len(np.unique(data_set[target_attribute])) <= 1:
         return np.unique(data_set[target_attribute])[0]
     if len(attributes) <= 1:       
-        return most_common_value(data_set[target_attribute])
+        return modal(data_set[target_attribute])
 
     IG = calculate_all_IG(data_set, target_attribute, attributes)
     root = max(IG, key=lambda k: IG[k])
@@ -87,7 +82,7 @@ def ID3(data_set, target_attribute, attributes):
     for value in np.unique(data_set[highest_IG_attribute]):
         subset = data_set[data_set[highest_IG_attribute] == value]
         if subset.empty:
-            tree[highest_IG_attribute][value] = most_common_value(data_set[target_attribute])
+            tree[highest_IG_attribute][value] = modal(data_set[target_attribute])
         else:
             subtree = ID3(subset, target_attribute, attributes)
             tree[highest_IG_attribute][value] = subtree

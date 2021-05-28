@@ -8,8 +8,12 @@
 *.xml
 *.gz
 *.idea
-*.syntex(busy)
+*.synctex(busy)
 *.pyg
+*.lof
+*.lot
+*.toc
+*.out
 
 
 /vscode/
