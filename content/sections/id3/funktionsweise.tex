@@ -90,8 +90,8 @@ Im nächsten Schritt wird die bedingte Entropie für das Attribut \textit{A} ber
 \begin{figure}[htbp]
     \centering
     \begin{align*}
-        H(T\vert A) &= \sum\limits_{a\in A}P(A=a) \cdot H(T\vert A=a) \\
-                    &= P(A=True) \cdot H(T\vert A=True) + P(A=False) \cdot H(T\vert A=False) \\
+        H(T\vert A) &= \sum\limits_{a\in A}P(a) \cdot H(T\vert A=a) \\
+                    &= P(True) \cdot H(T\vert A=True) + P(False) \cdot H(T\vert A=False) \\
                     &= \frac{2}{5} \cdot \left( -\frac{1}{2} \cdot \log_2\left( \frac{1}{2} \right) - \frac{1}{2} \cdot \log_{2}\left( \frac{1}{2} \right) \right) + \frac{3}{5} \cdot \left( -\frac{1}{3} \cdot \log_{2}\left( \frac{1}{3} \right) - \frac{2}{3} \cdot \log_{2}\left( \frac{2}{3} \right) \right) \\
                     &= \frac{2}{5} \cdot 1 + \frac{3}{5} \cdot 0,918296\\
                     &\approx 0.950978
@@ -113,8 +113,8 @@ Nachdem nun sowohl die Entropie als auch die bedingte Entropie berechnet sind ka
 Analog können die Informationsgewinne für die Attribute \textit{B} und \textit{C} berechnet werden. Diese liegen bei $ IG(T, B) = \textit{0,419973} $ und bei $ IG(T, C) = \textit{0,170951} $.
 
 \subsection{Funktionsweise}
-Der ID3 Algorithmus startet mit einem Datensatz \textit{S} mit Objekten $O_{1},...,O_{n}$ welche verschiedenen Attribute $A_{1},...,A_{k}$ und eine Klassifizierung \textit{C} besitzen. \autocites{ImplementationID3}{QuinlanID3} Die Werteausprägungen der Attribute sind dabei normalerweise endlich und diskret. \autocite{ThailandID3}\\
-Zu Beginn muss zunächst Knoten bestimmt werden. Dazu wird der Informationsgewinn \textit{IG}(\textit{S}) für jedes Attribut $A_{1},...,A_{k}$ berechnet. Das Attribut $A_{H}$ mit dem höchsten Informationsgewinnungswert wird dann als Knoten gewählt. Dabei gilt das $A_{H}$ die möglichen Ausprägungen $a_{1},...,a_{v}$ haben kann. Basierend auf $A_{H}$ wird \textit{S} in $S_{1},...,S_{v}$ Teilmengen zerlegt wobei die Teilmenge $S_{i}$ die Objekte aus \textit{S} beinhaltet deren Wert in $A_{H}$ die Ausprägungen $a_{i}$ hat. Anders ausgedrückt gilt $S_{i} = \{S\vert A_{H} = a_{i}\}$. Für jede Teilmenge $S_{i}$ wird dann rekursiv der vorher beschriebene Prozess für die verleibenden Attribute $\{A_{1},...,A_{k}\}\setminus A_{H}$ durchlaufen wodurch entsprechende Teilbäume erzeugt werden. \Autocite{QuinlanID3} Dabei wird die Rekursion beendet sofern,
+Der ID3 Algorithmus startet mit einem Datensatz \textit{S} mit Objekten $O_{1},...,O_{n}$ welche die Attribute $A_{1},...,A_{k}$ und die Klassifizierung \textit{C} besitzen. \autocites{ImplementationID3}{QuinlanID3} Die Werteausprägungen der Attribute sind dabei normalerweise endlich und diskret. \autocite{ThailandID3}\\
+Zu Beginn muss ein (Wurzel-) Knoten bestimmt werden. Dazu wird der Informationsgewinn \textit{IG}(\textit{S}) für jedes Attribut $A_{1},...,A_{k}$ berechnet. Das Attribut mit dem höchsten Informationsgewinnungswert $A_{H}$ wird dann als Knoten gewählt. Dabei gilt dass $A_{H}$ die möglichen Ausprägungen $a_{1},...,a_{v}$ haben kann. Basierend auf $A_{H}$ wird \textit{S} in $S_{1},...,S_{v}$ Teilmengen zerlegt wobei die Teilmenge $S_{i}$ die Objekte aus \textit{S} beinhaltet deren Wert in $A_{H}$ die Ausprägungen $a_{i}$ hat. Anders ausgedrückt gilt $S_{i} = \{S\vert A_{H} = a_{i}\}$. Für jede Teilmenge $S_{i}$ wird dann rekursiv der vorher beschriebene Prozess für die verleibenden Attribute $\{A_{1},...,A_{k}\}\setminus A_{H}$ durchlaufen wodurch entsprechende Teilbäume erzeugt werden. \Autocite{QuinlanID3} Dabei wird die Rekursion beendet sofern,
 
 \begin{enumerate}
     \item alle Objekte aus $S_{i}$ die gleiche Ausprägung $C_{i}$ der Klassifizierung \textit{C} besitzen. In diesem Fall wird der zu diesem Zeitpunkt ausgewählte Knoten zu einem Blatt mit der Ausprägung $C_{i}$. \autocites{QuinlanID3}{ID3algor15:online}
@@ -122,8 +122,4 @@ Zu Beginn muss zunächst Knoten bestimmt werden. Dazu wird der Informationsgewin
     \item die Teilmenge $S_{i}$ keine Objekte mehr beinhaltet, sie also leer ist. Dies tritt ein wenn sich in der übergeordneten Menge keine Objekte befinden welche die Ausprägung $a_{i}$ eines Attributes $A_{M}$ besitzen. In diesem Fall wird ein Blatt erzeugt welchem der Modalwert von \textit{C} aus der übergeordneten Menge zugeordnet wird. \autocite{ID3algor15:online}
 \end{enumerate}
 
-\subsection{Eigenschaften von ID3}
-\label{id3:eigenschaften}
-Der ID3-Algorithmus führt eine Best-First-Search für lokale Optima durch. Außerdem ist ID3 ein gieriger Algorithmus, da er stets das Attribut auswählt welches lokal den besten Informationsgewinn aufweist.
-
-\textbf{TODO: Vervollständigen}
+\pagebreak

@@ -1,14 +1,14 @@
 \section{Implementation}
 \label{id3:implementation}
 
-Diese persönliche Implementation besteht im wesentlichen aus vier Funktionen. Zum einen aus Nebenfunktionen wie der Berechnung des Informationsgewinns, der Entropie und des Modalwerts. Zum anderen besteht die Implementation aus der Hauptfunktion, dem eigentlichen ID3 Algorithmus.
+Diese persönliche Implementation besteht im wesentlichen aus vier Funktionen. Zum einen aus Nebenfunktionen wie der Berechnung des Informationsgewinns, der Entropie und des Modalwerts, zum anderen aus der Hauptfunktion bzw. dem eigentlichen ID3 Algorithmus.
 
 
 \subsection{Berechnung der Entropie}
 \label{id3:implementation-entropie}
 Die hier vorliegende Implementation zur Berechnung der Entropie erwartet als Eingabeparameter ein Attribut eines Datensatzes. Im Anschluss daran wird über die Zuweisung in Zeile 3 die Anzahl aller Ausprägungne des Attributes ermittelt. Dabei kommt die Bibliotheksfunktion \mintinline{python}{np.unique} zum Einsatz. Diese Funktion gibt zwei Listen zurück. Die erste Liste beinhaltet dabei alle möglichen Ausprägungen des Attributes während die zweite Liste die Anzahl eben jener Ausprägungen beinhaltet. Im Anschluss daran wird über die Länge der Liste \mintinline{python}{count} iteriert. Dabei wird in jedem Durchlauf die Wahrscheinlichkeit einer Ausprägung des Attributes berechnet. Außerdem wird die Entropie partiell für die vorliegende Ausprägung berechnet und mit dem vorherigen partiellen Entropiewert addiert.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \vspace{0.5cm}
     \centering
     \begin{minted}[linenos, breaklines, fontsize=\small]{python}
@@ -28,7 +28,7 @@ Die hier vorliegende Implementation zur Berechnung der Entropie erwartet als Ein
 Die vorliegende Implementation des Informationsgewinns erwartet drei Eingabeparameter. Diese sind der Datensatz, ein Attribut dieses Datensatzes und das Zielattribute gegen welches der Informationsgewinns bestimmt werden soll. Zu Beginn werden unter Zu­hil­fe­nah­me der Funktion \mintinline{python}{np.unique} alle möglichen Ausprägungen des Attributes sowie deren Anzahl bestimmt.\\
 Im Hauptteil dieser Funktion wird über die möglichen Ausprägungen \mintinline{python}{values} des Attribute iteriert. Dabei wird in Zeile 5 zunächst eine Teilmenge \mintinline{python}{subdata} des ursprünglichen Datensatzes gebildet (vgl. Kapitel \ref{id3:gain}). Im Anschluss daran wird die Wahrscheinlichkeit der Ausprägung \mintinline{python}{value}, sowie die Entropie der Teilmenge \mintinline{python}{subdata} berechnet. Dabei werden die Entropieen der verschiedenen Ausprägungen addiert. Im letzen Schritt wird der Informationsgewinn aus der Differenz der Entropie des Zielattributes und der bedingten Entropie berechnet (vgl. Kapitel \ref{id3:gain}).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minted}[linenos, breaklines, fontsize=\small]{python}
         def information_gain(data, attribute, target_attribute):
@@ -49,7 +49,7 @@ Im Hauptteil dieser Funktion wird über die möglichen Ausprägungen \mintinline
 \label{id3:implementation-modal}
 Die Funktion \mintinline{python}{modal} erwartet eine Liste von Elementen als Eingabeparameter. Zu Beginn der Funktion wird zunächst mit Hilfe der Funktion \mintinline{python}{np.unique} die Menge aller vorkommenden Werte sowie deren Anzahl in der Anfangsliste bestimmt. Im Anschluss daran wird aus beiden Informationen ein Dictionary erstellt. Im letzten Schritt wird mittels einer Lambda Funktion der Schlüssel des Dictionary ermittelt dessen Wert am höchsten ist.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minted}[linenos, breaklines, fontsize=\small]{python}
         def modal(attribute):
@@ -67,7 +67,7 @@ Zu Beginn der Funktion werden zwei Abbruchbedingungen geprüft (vgl. Kapitel \re
 Im Anschluss daran wird mit der Funktion \mintinline{python}{calculate_all_IG} der Informationsgewinn für jedes Attribut berechnet, wobei das Attribut mit dem höchsten Wert (\mintinline{python}{best_attribute}) als (Wurzel-) Knoten gewählt wird. Im Anschluss daran wird in Zeile 10 \mintinline{python}{best_attribute} aus der Menge aller Attribute entfernt.\\
 Nun beginnt der iterative Teil der Funktion. Dabei wird über alle Ausprägungen des Attributes \mintinline{python}{best_attribute} eine Teilmenge \mintinline{python}{subset} des ursprünglichen Datensatzes erstellt. Danach wird die dritte Abbruchbedingung für die Rekursion geprüft, nämlich ab die Teilmenge \mintinline{python}{subset} leer ist. In diesem Fall wird ein Blatt erstellt welchem der Modalwert \mintinline{python}{modal_value} des Zielattributes zugeordnet wird. Wenn allerdings die Teilmenge \mintinline{python}{subset} nicht leer ist, so wird in Zeile 18 rekursiv ein Teilbaum erstellt. Dieser wird in Zeile 19 der Ausprägung \mintinline{python}{value} des Attributes \mintinline{python}{best_attribute} zugewiesen.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minted}[linenos, breaklines, fontsize=\small]{python}
         def ID3(data_set, target_attribute, attributes):
@@ -93,59 +93,3 @@ Nun beginnt der iterative Teil der Funktion. Dabei wird über alle Ausprägungen
     \end{minted}
     \caption{Hauptfunktion des ID3 Algorithmus \autocites{MaxKeyByValue:online}{ID3algor15:online}{PythonCourseDecisionTrees:online}}
 \end{figure}
-
-
-\section{Anwendung}
-\label{id3:anwendung}
-In diesem Kapitel wird erläutert wie die oben beschriebene Implementation aus dem Beispiel-Datensatz (vgl. Kapitel \ref{id3:datensatz}) einen Entscheidungsbaum erzeugt. Die Erstellung des Entscheidungsbaumes beginnt mit dem Aufruf \mintinline{python}{ID3(data, "RISK", attributes)}. Der Datensatz \mintinline{python}{data} ist dabei der Datensatz aus Kapitel \ref{id3:datensatz-final}. Dabei beinhaltet \mintinline{python}{attributes} eine Liste mit den Attributen \textit{AGE}, \textit{INCOME}, \textit{NUMKIDS}, \textit{MORTGAGE}, \textit{LOANS}.
-
-Zu Beginn werden die Abbruchbedingungen überprüft. Da die Objekte im Datensatz nicht alle die selbe Klassifizierung besitzen und noch Attribute zur Verfügung stehen fallen die Abbruchbedingung negativ aus. Daher wird als nächstes der Informationsgewinn für die Attribute berechnet. Dabei ergeben sich folgende Werte.
-
-\begin{table}[htbp]
-    \centering
-    \begin{tabular}{lc}
-        \textit{IG}(\textit{data}, \textit{AGE})       &= 0,36677 \\ 
-        \textit{IG}(\textit{data}, \textit{INCOME})    &= 0,77095 \\ 
-        \textit{IG}(\textit{data}, \textit{NUMKIDS})   &= 0,32192 \\ 
-        \textit{IG}(\textit{data}, \textit{MORTGAGE})  &= 0,13031 \\ 
-        \textit{IG}(\textit{data}, \textit{LOANS})     &= 0,07898 \\
-    \end{tabular}
-\end{table}
-
-Das Attribut \textit{INCOME} besitzt den höchsten Informationsgewinn und wird daher als Knoten gewählt aus \mintinline{python}{attributes} entfernt. Die erste Iteration erfolgt für die Ausprägung \textit{High} wobei die Teilmenge \mintinline{python}{subdata} angelegt welche nun folgende Struktur hat.
-
-\begin{table}[htbp]
-    \centering
-    \begin{tabularx}{\linewidth}{cccccc}
-        \toprule
-        \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
-        \toprule
-        Middle & High      & Yes &     Yes &  Yes &  good risk \\
-        Old    & High      & No  &     Yes &  Yes &  good risk \\
-        \bottomrule
-    \end{tabularx}
-    \caption{Teilmenge \mintinline{python}{subdata} der Ausprägung \textit{High}}
-    \label{table:subdata-high}
-\end{table}
-
-Da \mintinline{python}{subdata} nicht leer ist, wird die dritte Abbruchbedingung nicht ausgelöst. Stattdessen wird nun rekursiv ein Teilbaum für \mintinline{python}{subdata} angelegt. Dabei werden zunächst wieder die Abbruchbedingung der Rekursion geprüft. Dabei fällt mit Bezug auf die Tabelle \ref{table:subdata-high} auf, dass eine Abbruchbedingung der Rekursion erfüllt ist da alle Objekte aus \mintinline{python}{subdata} die selbe Klassifizierung aufweisen, nämlich \textit{good risk}. Daher wird nun ein Blatt mit dieser Klassifizierung erzeugt.
-
-Die zweite Iteration erfolgt mit der Ausprägung \textit{Middle}. Auch hier wird erneut eine Teilmenge \mintinline{python}{subdata} angelegt welche wie folgt aussieht.
-
-\begin{table}[htbp]
-    \centering
-    \begin{tabularx}{\linewidth}{cccccc}
-        \toprule
-        \textbf{AGE} & \textbf{INCOME} & \textbf{NUMKIDS} & \textbf{MORTGAGE} & \textbf{LOANS} & \textbf{RISK} \\
-        \toprule
-        Old    & Middle    & Yes &     Yes &  Yes &   bad loss \\
-        Old    & Middle    & Yes &     No  &  Yes &   bad loss \\
-        Middle & Middle    & Yes &     Yes &  Yes &   bad loss \\
-        Old    & Middle    & Yes &     Yes &  Yes & bad profit \\
-        \bottomrule
-    \end{tabularx}
-    \caption{Teilmenge \mintinline{python}{subdata} der Ausprägung \textit{Middle}}
-    \label{table:subdata-middle}
-\end{table}
-
-Betrachtet man nun diese Teilmenge fällt sofort auf dass sie keine der Abbruchbedingung erfüllt. Daher muss nun der Informationsgewinn für jedes Attribute der Teilmenge berechnet werden. Dabei ergibt sich anlog zu oben erläuterten Vorgehensweise, dass das Attribut \textit{AGE} als Knoten ausgewählt wird. An dieser stelle wird nun wieder über alle möglichen Ausprägungen von \textit{AGE} iteriert.

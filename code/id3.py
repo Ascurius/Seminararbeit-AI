@@ -72,20 +72,14 @@ def ID3(data_set, target_attribute, attributes):
         else:
             subtree = ID3(subset, target_attribute, attributes)
             tree[best_attribute][value] = subtree
-        c += 1
     return tree
 
-S = load_csv("code/data/RiskSampleNormalizedPreview.csv")
+S = load_csv("code/data/Weather.csv")
 
 #test_data_set = pd.concat([S, training_data_set, training_data_set]).drop_duplicates(keep=False)
 
-S.iloc[452]["INCOME"] = "Very High"
-S.iloc[401]["LOANS"] = "No"
-training_data_set = S.iloc[[98, 204, 30, 155, 57, 495, 478, 401, 452, 311]]
-subdata = training_data_set[training_data_set["INCOME"] == "Middle"]
-print(subdata)
-print(calculate_all_IG(subdata, "RISK", subdata.columns))
-
 #Tree = ID3(training_data_set, "RISK", training_data_set.columns)
+S = S[S["WEATHER"] == "Rainy"]
+print(calculate_all_IG(S, "PLAY", S.columns))
 
 #plot_tree(tree)
