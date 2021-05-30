@@ -1,9 +1,9 @@
 \chapter{Zusammenfassung}
 \label{zusammenfassung}
 
-Entscheidungsbäume bieten diverse Vorteile gegenüber anderen Methoden. Einer der offensichtlichsten Vorteile ist die einfache Verständlichkeit und Interpretierbarkeit von Entscheidungsbäumen. \autocite{DataMining} Sie können visualisiert werden und ermöglichen es somit auch Laien mit ihnen zu Arbeiten. \autocite{Decision46:online} 
+Entscheidungsbäume bieten diverse Vorteile gegenüber anderen Methoden. Einer der offensichtlichsten Vorteile ist die einfache Verständlichkeit und Interpretierbarkeit von Entscheidungsbäumen. \autocite{DataMining} Sie können visualisiert werden und ermöglichen es somit auch Laien mit ihnen zu Arbeiten. \autocite{Decision46:online} Außerdem können Entscheidungsbäume aus Datensätzen erstellt werden die nicht normalisiert sind und sowohl numerische als auch mit kategoriale Attribute enthalten. Dabei können Entscheidungsbäume auch mit sehr großen Datensätzen arbeiten. \autocite{Decision46:online}
 
 
 Aber natürlich besitzen Entscheidungsbäume auch Einschränkungen. Sie sind relativ inkonsistent, da bereits kleine Änderungen innerhalb des Trainingsdatensatzes zu weitreichenden Veränderungen des Entscheidungsbaums führen können. \autocite{Decision46:online}\\
-Eine weitere Herausforderung ist dass die Entscheidungsbäume nicht zwangsweise optimal sind. Die Erstellung eines garantiert optimalen Entscheidungsbaums ist ein NP-vollständiges Problem \autocite{DataMining}, weshalb auch viele Implementationen einen gierigen Ansatz wählen. Dies bedeutet dass die verschiedenen Implementationen nach der lokal optimalen Entscheidung für jeden Knoten suchen. \autocite{Decision46:online}\\
-Sofern der Trainingsdatensatz zu speziell ist kann es bei einem Entscheidungsbäume zu sogenanntem Overfitting kommen. Dies bedeutet, dass der Entscheidungsbaum nicht gut generallisiert und zu stark von dem Trainingsdatensatz abhängig ist. In diesem Fall würden reale Daten die signifikant von dem Trainingsdatensatz abweichen flasch klassifiziert werden. \autocite{DataMining} Diesem Problem kann mittels Pruning entgegengewirkt werden.
+Besonders bei Entscheidungsbäumen kann es zu Overfitting kommen wodurch reale Daten falsch klassifiziert werden. Allerdings kann diesem Problem mittels Pruning entgegengewirkt werden. \autocite{DataMining}\\
+Wenn Datensätze verwendet werden, die kategorialen Attribute mit einer Vielzahl von möglichen Ausprägungen besitzen, ist der Informationsgewinn in Entscheidungsbäumen zugunsten dieser Attribute ausgelegt.\autocite{Decision46:online}

@@ -14,6 +14,8 @@
 \usepackage{csquotes}
 \usepackage[linguistics]{forest} % Für das Zeichnen von Entscheidungsbäumen
 \usepackage[hidelinks]{hyperref} % Macht Referenzen anklickbar
+\usepackage{fancyhdr} % Kaitel und Sektionen werden im Header einer Seite angezeigt
+
 
 %%%% LANGUAGE PACKAGES %%%%
 \usepackage[utf8]{inputenc}
@@ -31,9 +33,11 @@
 ]{biblatex}
 \addbibresource{./bibliography/bibliography.bib}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VARS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VARS AND CONFIG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \graphicspath{{./img}}
+\setcounter{tocdepth}{1} % Regelt welche Überschriftstiefe im Inhaltverz. angezeigt wird
+\pagestyle{fancy} % Kaitel und Sektionen werden im Header einer Seite angezeigt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DOC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
