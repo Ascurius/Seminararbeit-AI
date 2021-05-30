@@ -5,13 +5,13 @@ Der ID3-Algorithmus macht sich zwei Konzepte der Informationstheorie zu nutze. E
 
 \subsection{Entropie}
 \label{id3:entropie}
-In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. Unsicherheit  einer Variablen \textit{X} angegeben. Dementsprechend ist $x_{i}$ eine mögliche Ausprägung der Variablen \textit{X} und \textit{P}($x_{i}$) die Wahrscheinlichkeit mit der die Variable \textit{X} die Ausprägung $x_{i}$ hat. \autocite{Entropy:online}
+In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. Unsicherheit  einer Variablen \textit{X} angegeben. Dementsprechend ist $x_{i}$ eine mögliche Ausprägung der Variablen \textit{X} und \textit{P}($x_{i}$) die Wahrscheinlichkeit mit der die Variable \textit{X} die Ausprägung $x_{i}$ hat. \autocite{EntropyClaudeShennon}
 
 \begin{figure}[htbp]
     \vspace{0.5cm}
     \centering
     $ H(X) = - \sum\limits_{i=1}^{n} P(x_{i}) \log_{b} P(x_{i}) $
-    \caption{Definition der Entropie nach Shennon\autocite{Entropy:online}}
+    \caption{Definition der Entropie nach Shennon\autocite{EntropyClaudeShennon}}
 \end{figure}
 
 \textbf{\underline{Beispiel}:} Sei \textit{D} ein Datensatz in dem  das Attribut \textit{X} mit den möglichen Ausprägungen $x_{1}, x_{2}$ und $x_{3}$ vorkommt. Weiterhin gelte, dass $x_{1}$ neun mal, $x_{2}$ drei mal und $x_{3}$ fünf mal in \textit{D} vorhanden ist. Zur Bestimmung der Entropie von \textit{X} egribt sich die nachfolgende Berechnung. Für den ID3-Algorithmus wird üblicherweise der Logarithmus zur Basis \textit{b=2} verwendet. \autocite{ImplementationID3}
@@ -32,14 +32,14 @@ In der Informationstheorie wird mit der Entropie \textit{H} die Sicherheit bzw. 
 \pagebreak
 \subsection{Informationsgewinn}
 \label{id3:gain}
-In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Maß an Informationen das über eine Zufallsvariablen \textit{X} durch Beobachtung einer anderen Zufallsvariablen \textit{Y} gewonnen werden kann. \autocite{DataMining} Konkret ergibt sich der Informationsgewinn aus der Differenz der Entropie \textit{H}(\textit{X}) und der bedingten Entropie \textit{H}(\textit{X}$\vert$\textit{Y}). \autocite{Informat29:online}
+In der Informationstheorie beschreibt der Informationsgewinn \textit{IG} das Maß an Informationen das über eine Zufallsvariablen \textit{X} durch Beobachtung einer anderen Zufallsvariablen \textit{Y} gewonnen werden kann. \autocite{DataMining} Konkret ergibt sich der Informationsgewinn aus der Differenz der Entropie \textit{H}(\textit{X}) und der bedingten Entropie \textit{H}(\textit{X}$\vert$\textit{Y}). \autocites{DataMining}{Informat29:online}{QuinlanID3}
 
 \begin{figure}[H]
     \label{fig:gain}
     \vspace{0.5cm}
     \centering
         $ IG(X,Y) = H(X) - H(X\vert Y) = H(X) - \sum\limits_{y\in Y} P(y)H(X\vert Y=y)$
-    \caption{Allgemeine Definition des Informationsgewinns \autocites{DataMining}{ConditionalEntropy:online}{BedingteEntropie:online}}
+    \caption{Allgemeine Definition des Informationsgewinns \autocites{DataMining}{ConditionalEntropy}}
 \end{figure}
 
 \textbf{\underline{Beispiel}:} Sei \textit{S} ein Datensatz mit den in Tabelle \ref{table:gain} dargestellten Werten. Außerdem seien \textit{A}, \textit{B}, \textit{C} und \textit{T} Attribute von \textit{S} mit den möglichen Ausprägungen \textit{True} und \textit{False}. Sei weiterhin das Attribut \textit{T} das Zielattribut gegen das der Informationsgewinn der übrigen Attribute ermittelt werden soll.
@@ -85,7 +85,7 @@ Im nachfolgenden wird der Informationsgewinn für das Attribut \textit{A} berech
     \end{align*}
 \end{figure}
 
-Im nächsten Schritt wird die bedingte Entropie für das Attribut \textit{A} berechnet. \autocites{BedingteEntropie:online}{ConditionalEntropy:online}
+Im nächsten Schritt wird die bedingte Entropie für das Attribut \textit{A} berechnet.
 
 \begin{figure}[htbp]
     \centering
@@ -117,9 +117,9 @@ Der ID3 Algorithmus startet mit einem Datensatz \textit{S} mit Objekten $O_{1},.
 Zu Beginn muss ein (Wurzel-) Knoten bestimmt werden. Dazu wird der Informationsgewinn \textit{IG}(\textit{S}) für jedes Attribut $A_{1},...,A_{k}$ berechnet. Das Attribut mit dem höchsten Informationsgewinnungswert $A_{H}$ wird dann als Knoten gewählt. Dabei gilt dass $A_{H}$ die möglichen Ausprägungen $a_{1},...,a_{v}$ haben kann. Basierend auf $A_{H}$ wird \textit{S} in $S_{1},...,S_{v}$ Teilmengen zerlegt wobei die Teilmenge $S_{i}$ die Objekte aus \textit{S} beinhaltet deren Wert in $A_{H}$ die Ausprägungen $a_{i}$ hat. Anders ausgedrückt gilt $S_{i} = \{S\vert A_{H} = a_{i}\}$. Für jede Teilmenge $S_{i}$ wird dann rekursiv der vorher beschriebene Prozess für die verleibenden Attribute $\{A_{1},...,A_{k}\}\setminus A_{H}$ durchlaufen wodurch entsprechende Teilbäume erzeugt werden. \Autocite{QuinlanID3} Dabei wird die Rekursion beendet sofern,
 
 \begin{enumerate}
-    \item alle Objekte aus $S_{i}$ die gleiche Ausprägung $C_{i}$ der Klassifizierung \textit{C} besitzen. In diesem Fall wird der zu diesem Zeitpunkt ausgewählte Knoten zu einem Blatt mit der Ausprägung $C_{i}$. \autocites{QuinlanID3}{ID3algor15:online}
-    \item bereits alle Attribute $A_{1},...,A_{k}$ für den Entscheidungsbaum verwendet worden sind, es also keine Attribute mehr gibt mittels derer ein Objekt aus $S_{i}$ klassifiziert werden könnte, aber nicht alle Objekte der selben Klassifizierung $C_{i}$ zugeordnet werden können. In diesem Fall wird der aktuelle Knoten zu einem Blatt, welchem der Modalwert von \textit{C} zugeordnet wird.\autocites{QuinlanID3}{ID3algor15:online}
-    \item die Teilmenge $S_{i}$ keine Objekte mehr beinhaltet, sie also leer ist. Dies tritt ein wenn sich in der übergeordneten Menge keine Objekte befinden welche die Ausprägung $a_{i}$ des aktuell ausgewählten Attributes $A_{H}$ besitzen. In diesem Fall wird ein Blatt erzeugt welchem der Modalwert von \textit{C} aus der übergeordneten Menge zugeordnet wird. \autocite{ID3algor15:online}
+    \item alle Objekte aus $S_{i}$ die gleiche Ausprägung $C_{i}$ der Klassifizierung \textit{C} besitzen. In diesem Fall wird der zu diesem Zeitpunkt ausgewählte Knoten zu einem Blatt mit der Ausprägung $C_{i}$. \autocites{QuinlanID3}{PythonCourseDecisionTrees:online}{ID3algor15:online}
+    \item bereits alle Attribute $A_{1},...,A_{k}$ für den Entscheidungsbaum verwendet worden sind, es also keine Attribute mehr gibt mittels derer ein Objekt aus $S_{i}$ klassifiziert werden könnte, aber nicht alle Objekte der selben Klassifizierung $C_{i}$ zugeordnet werden können. In diesem Fall wird der aktuelle Knoten zu einem Blatt, welchem der Modalwert von \textit{C} zugeordnet wird.\autocites{QuinlanID3}{PythonCourseDecisionTrees:online}{ID3algor15:online}
+    \item die Teilmenge $S_{i}$ keine Objekte mehr beinhaltet, sie also leer ist. Dies tritt ein wenn sich in der übergeordneten Menge keine Objekte befinden welche die Ausprägung $a_{i}$ des aktuell ausgewählten Attributes $A_{H}$ besitzen. In diesem Fall wird ein Blatt erzeugt welchem der Modalwert von \textit{C} aus der übergeordneten Menge zugeordnet wird. \autocites{PythonCourseDecisionTrees:online}{ID3algor15:online}
 \end{enumerate}
 
 \pagebreak
