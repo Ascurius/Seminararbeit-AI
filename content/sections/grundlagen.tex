@@ -1,13 +1,14 @@
 \chapter{Was sind Entscheidungsbäume?}
 \label{eb:was-sind-entscheidungsbaeume}
 
-
-
-\section{Motivation und Ziel}
-\label{eb:motivation}
-Das Ziel eines Entscheidungsbaumes ist eine Menge von Regeln aufzustellen anhand derer Datenobjekte automatisch klassifiziert werden können. \autocite{Entschei47:online} 
-
-\section{Generischer Aufbau}
+\section{Aufbau und Funtionsweise}
 \label{eb:aufbau}
-Ein Entscheidungsbaum ist ein geordneter und gerichteter \autocite{Entschei47:online} Baum welcher aus Knoten und Kanten besteht. Dabei unterteilt man Konten in zwei verschiedene Typen. Zum einen gibt es die Entscheidungsknoten \autocites{Decision5:online}{FramworkForSensitivity:online}. Dabei handelt es sich um eine Überprüfung einer Eigenschaft eines Datenobjektes \autocite{DataMining} und letztenendes um eine logische Regel \autocite{Entschei47:online}. Dabei gibt es den Wurzelknoten als besondere Ausprägung ein Entscheidungsknoten. Er unterscheidet sich von einem normalen Entscheidungsknoten nur in soweit, als dass der Wurzelknoten der Ursprung des gesammten Entscheidungsbaumes ist.\\
-Zum anderen gibt es die Endknoten
+Ein Entscheidungsbaum ist ein geordneter und gerichteter \autocite{Entschei47:online} Baum welcher aus Knoten und Kanten besteht. Dabei unterteilt man Konten in zwei verschiedene Typen. Zum einen gibt es die Entscheidungsknoten \autocite{FramworkForSensitivity:online}. Dabei handelt es sich um eine Überprüfung einer Eigenschaft eines Datenobjektes \autocite{DataMining} währned eine Kante gerade das Ergebnis jener Überprüfung ist. Dabei gibt es den Wurzelknoten als besondere Ausprägung ein Entscheidungsknoten. Er unterscheidet sich von einem normalen Entscheidungsknoten nur in soweit, als dass der Wurzelknoten der Ursprung des gesammten Entscheidungsbaums ist. Zum anderen gibt es die Endknoten \autocite{FramworkForSensitivity:online} welche üblicherweise als Blätter bezeichnet werden. Bei einem Blatt handel es sich um einen Enzustand welcher das Ergebnis bzw. die Klassifikation angibt. \autocite{Entschei47:online}
+
+Möchte man nun ein Datenobjekt klassifizieren so folgt man beginnend mit dem Wurzelknoten dem Entscheidungsbaum abwärts. Dabei wird bei jedem Entscheidungsknoten eine Eigenschaft bzw. ein Attribut des Datenobjektes überprüft. Basierend auf dem Ergebnis dieser Überprüfung wird dann entlang einer der Kanten der nachfolgende Entscheidungsknoten ausgewählt. \autocite{Entschei47:online} Dies "[...] wird so lange fortgesetz bis man ein Blatt erreicht" \autocite{Entschei47:online} und somit das Datenobjekt klassifiziert ist.
+
+\textbf{TODO: Sollte der Aufbau vielleicht mathematisch genau beschrieben werden?}
+
+\section{Erzeugung eines Entscheidungsbaums}
+\label{eb:erstellung}
+Die Erzeugung eines Entscheidungsbaums erfolgt in der Regel nach dem Top-Down Prinzip, indem in jedem Prozessschrit das beste Attribut ausgewählt wird um daraus einen Knoten zu erzeugen und den Datensatz aufzuteilen. \autocite{TopDownInduction} Dabei wird ein Trainingsdatensatz mit Objekten verwendet für die bereits eine Klassifikation vorliegt. \autocite{Entschei47:online} Dabei nutzen die verschiedenen Algorithmen unterschiedliche Methoden um das beste Attribute zu ermitteln, z.B. den Informationsgewinn, den Gini-Index oder den Misclassification Error. \autocite{DataMining}
