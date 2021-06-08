@@ -8,7 +8,7 @@ Inhaltsverzeichnis
 2. Einführung
 3. Was sind Entscheidungsbäume?
     - Aufbau und Funktionsweise
-    - Erzegung
+    - Erzeugung
 4. Der ID3 Algorithmus
     - Grundlagen
     - Anwendungsbeispiel
