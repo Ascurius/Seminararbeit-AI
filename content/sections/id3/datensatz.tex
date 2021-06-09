@@ -1,7 +1,6 @@
 \section{Anwendungsbeispiel}
 \label{id3:datensatz}
-In diesem Kapitel wird die Erzeugung eines Entscheidungsbaumes mit Hilfe des ID3 Algorithmus anhand eines Beispiels eräütert. Zu diesem Zweck wurde ein Datensatz \textit{S} ausgewählt welcher in Tabelle \ref{table:datensatz-original} dargestellt ist. \Autocite{ImplementationID3}. Dieser Datensatz beinhaltet die Attribute \textit{WEATHER}, \textit{TEMP}, \textit{HUMIDITY} und \textit{WIND} sowie ein Klassifizierung \textit{PLAY}.\\
-Hierbei ist die Aufgabe den ID3 Allgorithmus zu nutzen um einen Entscheidungsbaum zu erstellen um vorherzusagen ob das Wetter ermöglicht dass Fußball gespielt werden kann.
+In diesem Kapitel wird die Erzeugung eines Entscheidungsbaumes mit Hilfe des ID3 Algorithmus anhand eines Beispiels eräütert. Zu diesem Zweck wurde ein Datensatz \textit{S} ausgewählt welcher in Tabelle \ref{table:datensatz-original} dargestellt ist. \Autocite{ImplementationID3}. Dieser Datensatz beinhaltet die Attribute \textit{WEATHER}, \textit{TEMP}, \textit{HUMIDITY} und \textit{WIND} sowie ein Klassifizierung \textit{PLAY}. Hierbei ist die Aufgabe den ID3 Allgorithmus zu nutzen um einen Entscheidungsbaum zu erstellen, welcher vorhersagt ob das Wetter ermöglicht dass Fußball gespielt werden kann.
 
 \begin{table}[htbp]
     \centering
@@ -101,7 +100,7 @@ Nun wird das Attribut \textit{HUMIDITY} als Knoten gewählt da es nun den höchs
     \label{table:datensatz-humidity-normal}
 \end{table}
 
-Betrachtet man oben genannten Teilmengen fällt sofort auf dass alle Objekte dieser Teilmengen die jeweils die selbe Klassifizierung besitzen. Für $S_{1_{HUMIDITY=High}}$ nämlich die Klassifizierung \textit{No} und für $S_{1_{HUMIDITY=Normal}}$ die Klassifizierung \textit{Yes}. Daher wird für beide Ausprägungen des Knotens \textit{Humidity} ein Blatt erstellt welches jeweils die entsprechende Klassifizierung zugewiesen bekommt. Daraus ergibt sich folgender vorläufiger Teilbaum.
+Betrachtet man die oben dargestellten Teilmengen fällt sofort auf dass alle Objekte dieser Teilmengen jeweils die selbe Klassifizierung besitzen. Für $S_{1_{HUMIDITY=High}}$ nämlich die Klassifizierung \textit{No} und für $S_{1_{HUMIDITY=Normal}}$ die Klassifizierung \textit{Yes}. Daher wird für beide Ausprägungen des Knotens \textit{HUMIDITY} ein Blatt erstellt welches jeweils die entsprechende Klassifizierung zugewiesen bekommt. Daraus ergibt sich folgender vorläufiger Teilbaum.
 
 \begin{figure}[htbp]
     \centering
