@@ -15,8 +15,9 @@
 *.lot
 *.toc
 *.out
-
+/img/Unterschrift.png
 
 /vscode/
 /_minted-main/
 /quellen/
+main.pdf
