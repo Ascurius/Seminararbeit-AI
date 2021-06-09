@@ -1,6 +1,6 @@
 \section{Anwendungsbeispiel}
 \label{id3:datensatz}
-In diesem Kapitel wird die Erzeugung eines Entscheidungsbaumes mit Hilfe des ID3 Algorithmus anhand eines Beispiels eräütert. Zu diesem Zweck wurde ein Datensatz \textit{S} ausgewählt welcher in Tabelle \ref{table:datensatz-original} dargestellt ist. \Autocite{ImplementationID3}. Dieser Datensatz beinhaltet die Attribute \textit{WEATHER}, \textit{TEMP}, \textit{HUMIDITY} und \textit{WIND} sowie ein Klassifizierung \textit{PLAY}. Hierbei ist die Aufgabe den ID3 Allgorithmus zu nutzen um einen Entscheidungsbaum zu erstellen, welcher vorhersagt ob das Wetter ermöglicht dass Fußball gespielt werden kann.
+In diesem Kapitel wird die Erzeugung eines Entscheidungsbaumes mit Hilfe des ID3 Algorithmus anhand eines Beispiels eräütert. Zu diesem Zweck wurde ein Datensatz \textit{S} ausgewählt, welcher in Tabelle \ref{table:datensatz-original} dargestellt ist. \Autocite{ImplementationID3}. Dieser Datensatz beinhaltet die Attribute \textit{WEATHER}, \textit{TEMP}, \textit{HUMIDITY} und \textit{WIND}, sowie eine Klassifizierung \textit{PLAY}. Hierbei ist die Aufgabe den ID3 Allgorithmus zu nutzen um einen Entscheidungsbaum zu erstellen, welcher vorhersagt ob das Wetter ermöglicht, dass Fußball gespielt werden kann.
 
 \begin{table}[htbp]
     \centering
@@ -28,7 +28,7 @@ In diesem Kapitel wird die Erzeugung eines Entscheidungsbaumes mit Hilfe des ID3
     \label{table:datensatz-original}
 \end{table}
 
-Als erstes werden die Informationsgewinne für die Attribute aus dem Datensatz \textit{S} berechnet. Dabei ergibt sich folgende Übersicht.
+Als erstes werden die Informationsgewinne für die Attribute aus dem Datensatz \textit{S} berechnet. Dabei ergibt sich folgende Übersicht:
 
 \begin{table}[htbp]
     \centering
@@ -40,7 +40,7 @@ Als erstes werden die Informationsgewinne für die Attribute aus dem Datensatz \
     \end{tabular}
 \end{table}
 
-Da das Attribut \textit{WEATHER} den höchsten Informationsgewinn hat wird es als Knoten bzw. Wurzelknoten gewählt. \textit{WEATHER} besitzt die drei möglichen Ausprägungen \textit{Sunny}, \textit{Cloudy} und \textit{Rainy} für die nun im jeweiligen Iterationschritt eine Teilmenge von \textit{S} erzeugt wird. Daraus ergibt sich zunächst für die Ausprägung \textit{Sunny} folgende Teilmenge $S_{1} = S_{WEATHER=Sunny}$.
+Da das Attribut \textit{WEATHER} den höchsten Informationsgewinn hat, wird es als Knoten bzw. Wurzelknoten gewählt. \textit{WEATHER} besitzt die drei möglichen Ausprägungen \textit{Sunny}, \textit{Cloudy} und \textit{Rainy}, für die nun im jeweiligen Iterationschritt eine Teilmenge von \textit{S} erzeugt wird. Daraus ergibt sich zunächst für die Ausprägung \textit{Sunny} folgende Teilmenge $S_{1} = S_{WEATHER=Sunny}$.
 
 \begin{table}[H]
     \centering
@@ -59,7 +59,7 @@ Da das Attribut \textit{WEATHER} den höchsten Informationsgewinn hat wird es al
     \label{table:datensatz-sunny}
 \end{table}
 
-Für $S_{1}$ wird nun rekursiv ein Teilbaum erzeugt wobei die Teilmenge keine der Abbruchbedingungen erfüllt, sodass man nun mit der Berechnung der Informationsgewinne für die Attribute aus $S_{1}$ fortfahren kann. Dabei ergeben sich folgende Werte.
+Für $S_{1}$ wird nun rekursiv ein Teilbaum erzeugt, wobei die Teilmenge keine der Abbruchbedingungen erfüllt, sodass man nun mit der Berechnung der Informationsgewinne für die Attribute aus $S_{1}$ fortfahren kann. Dabei ergeben sich folgende Werte.
 
 \begin{table}[htbp]
     \centering
@@ -70,7 +70,7 @@ Für $S_{1}$ wird nun rekursiv ein Teilbaum erzeugt wobei die Teilmenge keine de
     \end{tabular}
 \end{table}
 
-Nun wird das Attribut \textit{HUMIDITY} als Knoten gewählt da es nun den höchsten Informationsgewinn besitzt. Dabei hat \textit{HUMIDITY} die zwei mögliche Ausprägungen \textit{High} und \textit{Normal}. Somit ergeben sich die Teilmengen $S_{1_{HUMIDITY=High}}$ und $S_{1_{HUMIDITY=Normal}}$ aus $S_{1}$.
+Nun wird das Attribut \textit{HUMIDITY} als Knoten gewählt, da es nun den höchsten Informationsgewinn besitzt. Dabei hat \textit{HUMIDITY} die zwei mögliche Ausprägungen \textit{High} und \textit{Normal}. Somit ergeben sich die Teilmengen $S_{1_{HUMIDITY=High}}$ und $S_{1_{HUMIDITY=Normal}}$ aus $S_{1}$.
 
 \begin{table}[H]
     \centering
@@ -100,7 +100,7 @@ Nun wird das Attribut \textit{HUMIDITY} als Knoten gewählt da es nun den höchs
     \label{table:datensatz-humidity-normal}
 \end{table}
 
-Betrachtet man die oben dargestellten Teilmengen fällt sofort auf dass alle Objekte dieser Teilmengen jeweils die selbe Klassifizierung besitzen. Für $S_{1_{HUMIDITY=High}}$ nämlich die Klassifizierung \textit{No} und für $S_{1_{HUMIDITY=Normal}}$ die Klassifizierung \textit{Yes}. Daher wird für beide Ausprägungen des Knotens \textit{HUMIDITY} ein Blatt erstellt welches jeweils die entsprechende Klassifizierung zugewiesen bekommt. Daraus ergibt sich folgender vorläufiger Teilbaum.
+Betrachtet man die oben dargestellten Teilmengen fällt sofort auf, dass alle Objekte dieser Teilmengen jeweils die selbe Klassifizierung besitzen. Für $S_{1_{HUMIDITY=High}}$ nämlich die Klassifizierung \textit{No} und für $S_{1_{HUMIDITY=Normal}}$ die Klassifizierung \textit{Yes}. Daher wird für beide Ausprägungen des Knotens \textit{HUMIDITY} ein Blatt erstellt, welches jeweils die entsprechende Klassifizierung zugewiesen bekommt. Daraus ergibt sich folgender vorläufiger Teilbaum.
 
 \begin{figure}[htbp]
     \centering
@@ -127,7 +127,7 @@ Da nun die Ausprägungen des Attributes \textit{HUMIDITY} klassifiziert worden s
     \label{table:datensatz-Rainy}
 \end{table}
 
-Für $S_{2}$ wird nun erneut der Informationsgewinn der verbleibenden Attribute berechnet. Zu diesem Zeitpunkt bleiben nur noch die Attribute \textit{TEMP} und \textit{WIND} übrig, da die anderen Attribute bereits verwendet worden sind. Es ergeben sich folgende Werte für den Informationsgewinn.
+Für $S_{2}$ wird nun erneut der Informationsgewinn der verbleibenden Attribute berechnet. Zu diesem Zeitpunkt bleiben nur noch die Attribute \textit{TEMP} und \textit{WIND} übrig, da die anderen Attribute bereits verwendet worden sind. Es ergeben sich folgende Werte für den Informationsgewinn:
 
 \begin{table}[htbp]
     \centering
@@ -168,7 +168,7 @@ Basierend auf den Informationsgewinnen wird \textit{WIND} als Knoten gewählt. D
     \label{table:datensatz-wind-strong}
 \end{table}
 
-Bei beiden Teilmengen fällt auf dass alle Objekte aus diesen Teilmengen die selbe Klassifizierung aufweisen. An dieser Stelle wird analog zum Vorgehen beim Attribut \textit{HUMIDITY} ein Blatt für die Ausprägungen von \textit{WIND} erstellt. Darus ergibt sich nun folgender Teilbaum.
+Bei beiden Teilmengen fällt auf, dass alle Objekte aus diesen Teilmengen die selbe Klassifizierung aufweisen. An dieser Stelle wird, analog zum Vorgehen beim Attribut \textit{HUMIDITY}, ein Blatt für die Ausprägungen von \textit{WIND} erstellt. Darus ergibt sich nun folgender Teilbaum.
 
 \begin{figure}[htbp]
     \centering
@@ -194,7 +194,7 @@ Nachdem nun die Klassifizierung für das Attribut \textit{WIND} und somit auch f
     \label{table:datensatz-cloudy}
 \end{table}
 
-Bei der Betrachtung von $S_{3}$ fällt auf dass alle beinhalteten Objekte die selbe Klassifizierung \textit{Yes} besitzen. Aus diesem Grund wird analog zu der Vorgehensweise bei \textit{WIND} und \textit{HUMIDITY} ein Blatt mit der entsprechenden Klassifizierung erstellt. Somit wird der ID3 Algorithmus beendet und es entsteht der folgende finale Entscheidungsbaum.
+Bei der Betrachtung von $S_{3}$ fällt auf, dass alle beinhalteten Objekte die selbe Klassifizierung \textit{Yes} besitzen. Aus diesem Grund wird, analog zu der Vorgehensweise bei \textit{WIND} und \textit{HUMIDITY}, ein Blatt mit der entsprechenden Klassifizierung erstellt. Somit wird der ID3 Algorithmus beendet und es entsteht der folgende finale Entscheidungsbaum.
 
 \begin{figure}[H]
     \centering
@@ -202,7 +202,7 @@ Bei der Betrachtung von $S_{3}$ fällt auf dass alle beinhalteten Objekte die se
     \caption{Finaler Entscheidungsbaum}
 \end{figure}
 
-Aus dem oben dargestellten Entscheidungsbaum ergeben sich folgende Regeln für das Spielen. 
+Aus dem oben dargestellten Entscheidungsbaum ergeben sich folgende Regeln für das Spielen: 
 
 \begin{enumerate}
     \item Wenn das Wetter sonnig ist und die Humidität normal, dann kann Fußball gespielt werden. Wenn die Humidität allerdings hoch ist, dann kann kein Fußball gespielt werden. \autocite{ImplementationID3}

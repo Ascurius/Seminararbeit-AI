@@ -1,11 +1,11 @@
 \section{Implementation}
 \label{id3:implementation}
 
-Diese persönliche Implementation besteht im wesentlichen aus vier Funktionen. Zum einen aus Nebenfunktionen wie der Berechnung des Informationsgewinns, der Entropie und des Modalwerts, zum anderen aus der Hauptfunktion bzw. dem eigentlichen ID3 Algorithmus.
+Diese persönliche Implementation besteht im wesentlichen aus vier Funktionen. Zum einen aus Nebenfunktionen, wie der Berechnung des Informationsgewinns, der Entropie und des Modalwerts. Zum anderen besteht sie aus der Hauptfunktion bzw. dem eigentlichen ID3 Algorithmus.
 
 \subsection{Berechnung der Entropie}
 \label{id3:implementation-entropie}
-Die hier vorliegende Implementation zur Berechnung der Entropie erwartet als Eingabeparameter ein Attribut eines Datensatzes. Im Anschluss daran wird über die Zuweisung in Zeile 3 die Anzahl aller Ausprägungne des Attributes ermittelt. Dabei kommt die Bibliotheksfunktion \mintinline{python}{np.unique} zum Einsatz. Diese Funktion gibt zwei Listen zurück. Die erste Liste beinhaltet dabei alle möglichen Ausprägungen des Attributes während die zweite Liste die Anzahl eben jener Ausprägungen beinhaltet. Im Anschluss daran wird über die Länge der Liste \mintinline{python}{count} iteriert. Dabei wird in jedem Durchlauf die Wahrscheinlichkeit einer Ausprägung des Attributes berechnet. Außerdem wird die Entropie partiell für die vorliegende Ausprägung berechnet und mit dem vorherigen partiellen Entropiewert addiert.
+Die hier vorliegende Implementation zur Berechnung der Entropie erwartet als Eingabeparameter ein Attribut eines Datensatzes. Im Anschluss daran wird über die Zuweisung in Zeile 3 die Anzahl aller Ausprägungne des Attributes ermittelt. Dabei kommt die Bibliotheksfunktion \mintinline{python}{np.unique} zum Einsatz. Diese Funktion gibt zwei Listen zurück. Die erste Liste beinhaltet dabei alle möglichen Ausprägungen des Attributes, während die zweite Liste die Anzahl eben jener Ausprägungen beinhaltet. Im Anschluss daran wird über die Länge der Liste \mintinline{python}{count} iteriert. Dabei wird in jedem Durchlauf die Wahrscheinlichkeit einer Ausprägung des Attributes berechnet. Außerdem wird die Entropie partiell für die vorliegende Ausprägung berechnet und mit dem vorherigen partiellen Entropiewert addiert.
 
 \begin{figure}[H]
     \vspace{0.5cm}
@@ -24,7 +24,7 @@ Die hier vorliegende Implementation zur Berechnung der Entropie erwartet als Ein
 
 \subsection{Berechnung des Informationsgewinns}
 \label{id3:implementation-ig}
-Die vorliegende Implementation des Informationsgewinns erwartet drei Eingabeparameter. Diese sind der Datensatz, ein Attribut dieses Datensatzes und das Zielattribute gegen welches der Informationsgewinns bestimmt werden soll. Zu Beginn werden unter Zu­hil­fe­nah­me der Funktion \mintinline{python}{np.unique} alle möglichen Ausprägungen des Attributes sowie deren Anzahl bestimmt.\\
+Die vorliegende Implementation des Informationsgewinns erwartet drei Eingabeparameter. Diese sind: der Datensatz, ein Attribut dieses Datensatzes und das Zielattribut gegen welches der Informationsgewinns bestimmt werden soll. Zu Beginn werden unter Zu­hil­fe­nah­me der Funktion \mintinline{python}{np.unique} alle möglichen Ausprägungen des Attributes sowie deren Anzahl bestimmt.\\
 Im Hauptteil dieser Funktion wird über die möglichen Ausprägungen \mintinline{python}{values} des Attribute iteriert. Dabei wird in Zeile 5 zunächst eine Teilmenge \mintinline{python}{subdata} des ursprünglichen Datensatzes gebildet (vgl. Kapitel \ref{id3:gain}). Im Anschluss daran wird die Wahrscheinlichkeit der Ausprägung \mintinline{python}{value}, sowie die Entropie der Teilmenge \mintinline{python}{subdata} berechnet. Dabei werden die Entropieen der verschiedenen Ausprägungen addiert. Im letzen Schritt wird der Informationsgewinn aus der Differenz der Entropie des Zielattributes und der bedingten Entropie berechnet (vgl. Kapitel \ref{id3:gain}).
 
 \begin{figure}[H]
@@ -46,7 +46,7 @@ Im Hauptteil dieser Funktion wird über die möglichen Ausprägungen \mintinline
 
 \subsection{Berechnung des Modalwertes}
 \label{id3:implementation-modal}
-Die Funktion \mintinline{python}{modal} erwartet eine Liste von Elementen als Eingabeparameter. Zu Beginn der Funktion wird zunächst mit Hilfe der Funktion \mintinline{python}{np.unique} die Menge aller vorkommenden Werte sowie deren Anzahl in der Anfangsliste bestimmt. Im Anschluss daran wird aus beiden Informationen ein Dictionary erstellt. Im letzten Schritt wird mittels einer Lambda Funktion der Schlüssel des Dictionary ermittelt dessen Wert am höchsten ist.
+Die Funktion \mintinline{python}{modal} erwartet eine Liste von Elementen als Eingabeparameter. Zu Beginn der Funktion wird zunächst, mit Hilfe der Funktion \mintinline{python}{np.unique} die Menge aller vorkommenden Werte sowie deren Anzahl in der Anfangsliste bestimmt. Im Anschluss daran wird aus beiden Informationen ein Dictionary erstellt. Im letzten Schritt wird mittels einer Lambda Funktion der Schlüssel des Dictionary ermittelt, dessen Wert am höchsten ist.
 
 \begin{figure}[H]
     \centering
@@ -62,9 +62,9 @@ Die Funktion \mintinline{python}{modal} erwartet eine Liste von Elementen als Ei
 \subsection{ID3 - Hauptfunktion}
 \label{id3:implementation-id3}
 Die Hauptfunktion erwartet als Eingabeparameter den Ursprungsdatensatz, das Zielattribut und eine Liste aller möglichen Attribute des Datensatzes. Bei dem Zielattribut handelt es sich um die Klassifizierung.\\
-Zu Beginn der Funktion werden zwei Abbruchbedingungen geprüft (vgl. Kapitel \ref{id3:funktionsweise}). Als erstes wird untersucht, ob die sich in dem Datensatz \mintinline{python}{data_set} auschließlich Objekte mit der gleichen Klassifizierung befinden. Wenn dem so ist, wird genau diese Klassifizierung zurück gegeben. Als zweites wird untersucht, ob bereits alle Attribute verwendet worden sind. Sofern dies zutrifft wird der Modalwert des Zielattributes zurück gegeben.\\
-Im Anschluss daran wird mit der Funktion \mintinline{python}{calculate_all_IG} der Informationsgewinn für jedes Attribut berechnet, wobei das Attribut mit dem höchsten Wert (\mintinline{python}{best_attribute}) als (Wurzel-) Knoten gewählt wird. Im Anschluss daran wird in Zeile 10 \mintinline{python}{best_attribute} aus der Menge aller Attribute entfernt.\\
-Nun beginnt der iterative Teil der Funktion. Dabei wird über alle Ausprägungen des Attributes \mintinline{python}{best_attribute} eine Teilmenge \mintinline{python}{subset} des ursprünglichen Datensatzes erstellt. Danach wird die dritte Abbruchbedingung für die Rekursion geprüft, nämlich ab die Teilmenge \mintinline{python}{subset} leer ist. In diesem Fall wird ein Blatt erstellt welchem der Modalwert \mintinline{python}{modal_value} des Zielattributes zugeordnet wird. Wenn allerdings die Teilmenge \mintinline{python}{subset} nicht leer ist, so wird in Zeile 18 rekursiv ein Teilbaum erstellt. Dieser wird in Zeile 19 der Ausprägung \mintinline{python}{value} des Attributes \mintinline{python}{best_attribute} zugewiesen.
+Zu Beginn der Funktion werden zwei Abbruchbedingungen geprüft (vgl. Kapitel \ref{id3:funktionsweise}). Als erstes wird untersucht, ob sich in dem Datensatz \mintinline{python}{data_set} auschließlich Objekte mit der gleichen Klassifizierung befinden. Wenn dem so ist, wird genau diese Klassifizierung zurück gegeben. Als zweites wird untersucht, ob bereits alle Attribute verwendet worden sind. Sofern dies zutrifft wird der Modalwert des Zielattributes zurückgegeben.\\
+Im Anschluss daran wird mit der Funktion \mintinline{python}{calculate_all_IG} der Informationsgewinn für jedes Attribut berechnet, wobei das Attribut mit dem höchsten Wert (\mintinline{python}{best_attribute}) als (Wurzel-) Knoten gewählt wird. In Zeile 10 wird dann \mintinline{python}{best_attribute} aus der Menge aller Attribute entfernt.\\
+Nun beginnt der iterative Teil der Funktion. Dabei wird über alle Ausprägungen des Attributes \mintinline{python}{best_attribute} eine Teilmenge \mintinline{python}{subset} des ursprünglichen Datensatzes erstellt. Danach wird die dritte Abbruchbedingung für die Rekursion geprüft, nämlich ob die Teilmenge \mintinline{python}{subset} leer ist. In diesem Fall wird ein Blatt erstellt, welchem der Modalwert \mintinline{python}{modal_value} des Zielattributes zugeordnet wird. Wenn allerdings die Teilmenge \mintinline{python}{subset} nicht leer ist, so wird in Zeile 18 rekursiv ein Teilbaum erstellt. Dieser wird in Zeile 19 der Ausprägung \mintinline{python}{value} des Attributes \mintinline{python}{best_attribute} zugewiesen.
 
 \begin{figure}[H]
     \centering
